@@ -45,7 +45,7 @@ public class CheckUpdate extends Service {
                         Log.d("AppUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
                         if(isUpdateAvailable==true)
                         {
-                            Notification.Builder builder = new Notification.Builder(context)
+                            Notification.Builder builder = new Notification.Builder(CheckUpdate.this)
                                     .setSmallIcon(R.mipmap.ic_launcher)
                                     .setWhen(System.currentTimeMillis())
                                     .setTicker("")
@@ -53,7 +53,7 @@ public class CheckUpdate extends Service {
                                     .setContentText("Click to download update")
                                     .setContentIntent(contentIntent)
                                     .setAutoCancel(true);
-
+                            builder.build();
                             Log.d("Found", String.valueOf(update.getUrlToDownload()));
                         }
 

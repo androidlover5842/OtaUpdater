@@ -10,7 +10,14 @@ android:
   - android-25
 jdk:
 - oraclejdk8
-script: 
-- ./gradlew build
+script:
+- "./gradlew build"
 - find -type f -name "*.apk"
-
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: X8a1naDxhkfD5LSxZ94VhF0JccGCrJrv/YsffHyc9bdLOsw2cusVlsol4fcE4P++JFNpCjHJwmVNnp6iw1m2+CjK4nGRtWb732GyQCnA+ndSHwXoLbnWJrxJWYKSOBNHcy9iVM/3jXQ9p7nOArRvn/W34UpJG0X/HyZKs3glWiq9+yXpJJwRkED98O/+au17tv/W+9+rRghtU/pochW/tiwo9tAL71W9OEccCPZXq8LNTZ0ZfR7HlDbiEMhf1JQa8ATtVbCcuhG80YeR15adkTZL8bupFo9hh/wwNRg4kYSINNUtYnkLRHEXrcFA+PdnjW8U7+xK6Gt1cIAAEHKdtzD+At2cn6bjmWpHkTPvh85Y9qqiyUEDSCfrU7tEoCNfA5owzGeEHWfPxLjwNXegxW0VM9aJ2mg73KV3OWKopLVPacMc/wWAG2yQdKSCgpKzicj9Mwag3B+kKMPAmmwvPYXRVYPK5G2CqxX+l4LreOEQBgJW3O8RxzET/7hspL10sbuuGCyDPR3Ye4cobZUa4BLXeEs0pH6vHSKF6HfDHKWMZ+lP4GvOugZad4o2rQBO4mf5CBGa/FQxS2+ZjarZfl1XWtpnN4tQAaoSUweQPmrWfIVF00otyz5tnzd4nZi5+xXPv5RDMCM7gE3C/n1vxPR7PE7mi71AQxuX4NcSx+M=
+  file: "./app/build/outputs/apk/app-debug.apk"
+  on:
+    repo: Grace5921/OtaUpdater

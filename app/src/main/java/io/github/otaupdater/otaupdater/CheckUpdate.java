@@ -1,12 +1,13 @@
 package io.github.otaupdater.otaupdater;
 
-import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,16 +26,10 @@ public class CheckUpdate extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-    private Context context;
-    private Intent StartMainActivity;
-    private PendingIntent contentIntent;
+    private NotificationCompat.Builder mBuilder;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
-        StartMainActivity = new Intent(this, MainActivity.class);
-        contentIntent = PendingIntent.getActivity(this, 0, StartMainActivity,
-                PendingIntent.FLAG_ONE_SHOT);
-
         AppUpdaterUtils appUpdaterUtils = new AppUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.XML)
                 .setUpdateXML("https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/Updater.xml")
@@ -45,15 +40,17 @@ public class CheckUpdate extends Service {
                         Log.d("AppUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
                         if(isUpdateAvailable==true)
                         {
-                            Notification.Builder builder = new Notification.Builder(CheckUpdate.this)
+                            mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(CheckUpdate.this)
                                     .setSmallIcon(R.mipmap.ic_launcher)
-                                    .setWhen(System.currentTimeMillis())
-                                    .setTicker("")
-                                    .setContentTitle("Update Found")
-                                    .setContentText("Click to download update")
-                                    .setContentIntent(contentIntent)
+                                    .setContentTitle("Ota Update")
+                                    .setContentText("Found new update")
                                     .setAutoCancel(true);
-                            builder.build();
+                            Intent intent = new Intent(CheckUpdate.this, MainActivity.class);
+                            PendingIntent pi = PendingIntent.getActivity(CheckUpdate.this,0,intent,Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mBuilder.setContentIntent(pi);
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            mNotificationManager.notify(0, mBuilder.build());
                             Log.d("Found", String.valueOf(update.getUrlToDownload()));
                         }
 

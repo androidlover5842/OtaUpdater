@@ -302,7 +302,7 @@ public class AppUpdater implements IAppUpdater {
         latestAppVersion = new UtilsAsync.LatestAppVersion(context, false, updateFrom, gitHub, xmlOrJsonUrl, new LibraryListener() {
             @Override
             public void onSuccess(Update update) {
-                if (UtilsLibrary.isUpdateAvailable(UtilsLibrary.getAppInstalledVersion(context), update.getLatestVersion())) {
+                if (UtilsLibrary.isUpdateAvailable(UtilsLibrary.getAppInstalledVersion(), update.getLatestVersion())) {
                     Integer successfulChecks = libraryPreferences.getSuccessfulChecks();
                     if (UtilsLibrary.isAbleToShow(successfulChecks, showEvery)) {
                         switch (display) {

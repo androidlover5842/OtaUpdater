@@ -3,7 +3,6 @@ package io.github.otaupdater.otalibary;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -22,6 +21,7 @@ import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.GitHub;
 import io.github.otaupdater.otalibary.objects.Update;
 import io.github.otaupdater.otalibary.objects.Version;
+import io.github.otaupdater.otalibary.util.ShellExecuter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -37,15 +37,10 @@ class UtilsLibrary {
         return context.getPackageName();
     }
 
-    static String getAppInstalledVersion(Context context) {
-        String version = "0.0.0.0";
-
-        try {
-            version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
+    static String getAppInstalledVersion() {
+        String version;
+        ShellExecuter.command="getprop ro.build.date.utc";
+        version=ShellExecuter.runAsRoot();
         return version;
     }
 

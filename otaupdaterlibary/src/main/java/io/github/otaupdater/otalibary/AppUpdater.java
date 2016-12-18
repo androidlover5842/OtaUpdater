@@ -9,6 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.github.javiersantos.appupdater.R;
+
 import io.github.otaupdater.otalibary.enums.AppUpdaterError;
 import io.github.otaupdater.otalibary.enums.Display;
 import io.github.otaupdater.otalibary.enums.Duration;

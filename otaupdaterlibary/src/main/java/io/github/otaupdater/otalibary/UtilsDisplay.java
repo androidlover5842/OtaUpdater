@@ -11,6 +11,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
+import com.github.javiersantos.appupdater.R;
+
 import java.net.URL;
 
 import io.github.otaupdater.otalibary.enums.UpdateFrom;

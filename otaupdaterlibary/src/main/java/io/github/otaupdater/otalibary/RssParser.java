@@ -3,8 +3,6 @@ package io.github.otaupdater.otalibary;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.github.javiersantos.appupdater.objects.Update;
-
 import org.xml.sax.SAXException;
 
 import java.io.FileNotFoundException;
@@ -19,6 +17,8 @@ import java.net.UnknownHostException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import io.github.otaupdater.otalibary.objects.Update;
 
 class RssParser {
     private URL rssUrl;

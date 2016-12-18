@@ -17,11 +17,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AppUpdaterUtils appUpdaterUtils = new AppUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.XML)
-                .setUpdateXML("https://raw.githubusercontent.com/Arubadel/Arubadel/master/Updater.xml")
+                .setUpdateXML("https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/Updater.xml")
                 .withListener(new AppUpdaterUtils.UpdateListener() {
                     @Override
                     public void onSuccess(final Update update, Boolean isUpdateAvailable) {
                         Log.d("Found", "Update Found");
+                        Log.d("AppUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
                         if(isUpdateAvailable==true)
                         {
                             Log.d("Found", String.valueOf(update.getUrlToDownload()));

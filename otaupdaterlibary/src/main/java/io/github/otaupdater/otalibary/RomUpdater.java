@@ -40,7 +40,6 @@ public class RomUpdater implements IRomUpdater {
         this.context = context;
         this.libraryPreferences = new LibraryPreferences(context);
         this.display = Display.DIALOG;
-        this.updateFrom = UpdateFrom.GOOGLE_PLAY;
         this.duration = Duration.NORMAL;
         this.showEvery = 1;
         this.showAppUpdated = false;

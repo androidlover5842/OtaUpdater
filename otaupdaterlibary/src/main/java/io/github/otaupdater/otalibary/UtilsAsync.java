@@ -16,7 +16,6 @@ class UtilsAsync {
         private LibraryPreferences libraryPreferences;
         private Boolean fromUtils;
         private UpdateFrom updateFrom;
-        private GitHub gitHub;
         private String xmlOrJsonUrl;
         private RomUpdater.LibraryListener listener;
 
@@ -25,7 +24,6 @@ class UtilsAsync {
             this.libraryPreferences = new LibraryPreferences(context);
             this.fromUtils = fromUtils;
             this.updateFrom = updateFrom;
-            this.gitHub = gitHub;
             this.xmlOrJsonUrl = xmlOrJsonUrl;
             this.listener = listener;
         }
@@ -38,10 +36,7 @@ class UtilsAsync {
                 if (!fromUtils && !libraryPreferences.getAppUpdaterShow()) {
                     cancel(true);
                 } else {
-                    if (updateFrom == UpdateFrom.GITHUB && !GitHub.isGitHubValid(gitHub)) {
-                        listener.onFailed(RomUpdaterError.GITHUB_USER_REPO_INVALID);
-                        cancel(true);
-                    } else if (updateFrom == UpdateFrom.XML && (xmlOrJsonUrl == null || !UtilsLibrary.isStringAnUrl(xmlOrJsonUrl))) {
+                    if (updateFrom == UpdateFrom.XML && (xmlOrJsonUrl == null || !UtilsLibrary.isStringAnUrl(xmlOrJsonUrl))) {
                         listener.onFailed(RomUpdaterError.XML_URL_MALFORMED);
 
                         cancel(true);
@@ -72,7 +67,7 @@ class UtilsAsync {
                     return null;
                 }
             } else {
-                return UtilsLibrary.getLatestAppVersionHttp(context, updateFrom, gitHub);
+                return null;
             }
         }
 

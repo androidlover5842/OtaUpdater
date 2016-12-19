@@ -48,7 +48,6 @@ public class RomUpdaterUtils {
 
     public RomUpdaterUtils(Context context) {
         this.context = context;
-        this.updateFrom = UpdateFrom.GOOGLE_PLAY;
     }
 
     /**

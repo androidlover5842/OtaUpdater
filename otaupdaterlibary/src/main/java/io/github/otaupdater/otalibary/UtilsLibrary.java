@@ -1,6 +1,5 @@
 package io.github.otaupdater.otalibary;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -89,15 +88,6 @@ class UtilsLibrary {
             default:
                 res = String.format(Config.PLAY_STORE_URL, getAppPackageName(context), Locale.getDefault().getLanguage());
                 break;
-            case GITHUB:
-                res = Config.GITHUB_URL + gitHub.getGitHubUser() + "/" + gitHub.getGitHubRepo() + "/releases";
-                break;
-            case AMAZON:
-                res = Config.AMAZON_URL + getAppPackageName(context);
-                break;
-            case FDROID:
-                res = Config.FDROID_URL + getAppPackageName(context);
-                break;
         }
 
         try {
@@ -133,23 +123,7 @@ class UtilsLibrary {
                             isAvailable = true;
                         }
                         break;
-                    case GITHUB:
-                        if (line.contains(Config.GITHUB_TAG_RELEASE)) {
-                            str.append(line);
-                            isAvailable = true;
-                        }
-                        break;
-                    case AMAZON:
-                        if (line.contains(Config.AMAZON_TAG_RELEASE)) {
-                            str.append(line);
-                            isAvailable = true;
-                        }
-                        break;
-                    case FDROID:
-                        if (line.contains(Config.FDROID_TAG_RELEASE)) {
-                            str.append(line);
-                            isAvailable = true;
-                        }
+
                 }
             }
 
@@ -187,27 +161,6 @@ class UtilsLibrary {
                         version = splitPlayStore[0].trim();
                     }
                     break;
-                case GITHUB:
-                    String[] splitGitHub = source.split(Config.GITHUB_TAG_RELEASE);
-                    if (splitGitHub.length > 1) {
-                        splitGitHub = splitGitHub[1].split("(\")");
-                        version = splitGitHub[0].trim();
-                        if (version.contains("v")) { // Some repo uses vX.X.X
-                            splitGitHub = version.split("(v)");
-                            version = splitGitHub[1].trim();
-                        }
-                    }
-                    break;
-                case AMAZON:
-                    String[] splitAmazon = source.split(Config.AMAZON_TAG_RELEASE);
-                    splitAmazon = splitAmazon[1].split("(<)");
-                    version = splitAmazon[0].trim();
-                    break;
-                case FDROID:
-                    String[] splitFDroid = source.split(Config.FDROID_TAG_RELEASE);
-                    splitFDroid = splitFDroid[1].split("(<)");
-                    version = splitFDroid[0].trim();
-                    break;
             }
         }
         return version;
@@ -224,12 +177,6 @@ class UtilsLibrary {
                         sb.append(splitPlayStore[i].split("(<)")[0]).append("\n");
                     }
                     recentChanges = sb.toString();
-                    break;
-                case GITHUB:
-                    break;
-                case AMAZON:
-                    break;
-                case FDROID:
                     break;
             }
         }
@@ -248,29 +195,15 @@ class UtilsLibrary {
 
     static Intent intentToUpdate(Context context, UpdateFrom updateFrom, URL url) {
         Intent intent;
-
-        if (updateFrom.equals(UpdateFrom.GOOGLE_PLAY)) {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getAppPackageName(context)));
-        } else {
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()));
-        }
-
         return intent;
     }
 
     static void goToUpdate(Context context, UpdateFrom updateFrom, URL url) {
         Intent intent = intentToUpdate(context, updateFrom, url);
 
-        if (updateFrom.equals(UpdateFrom.GOOGLE_PLAY)) {
-            try {
-                context.startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()));
-                context.startActivity(intent);
-            }
-        } else {
             context.startActivity(intent);
-        }
+
     }
 
     static Boolean isAbleToShow(Integer successfulChecks, Integer showEvery) {

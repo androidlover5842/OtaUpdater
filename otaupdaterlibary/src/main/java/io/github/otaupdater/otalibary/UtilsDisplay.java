@@ -11,8 +11,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
-import com.github.javiersantos.appupdater.R;
-
 import java.net.URL;
 
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
@@ -38,7 +36,7 @@ class UtilsDisplay {
                 .setNeutralButton(btnNeutral, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        libraryPreferences.setAppUpdaterShow(false);
+                        libraryPreferences.setRomUpdaterShow(false);
                     }
                 }).create();
     }
@@ -65,7 +63,7 @@ class UtilsDisplay {
         }*/
 
         Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content), content, snackbarTime);
-        snackbar.setAction(context.getResources().getString(R.string.appupdater_btn_update), new View.OnClickListener() {
+        snackbar.setAction(context.getResources().getString(R.string.romupdater_btn_update), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UtilsLibrary.goToUpdate(context, updateFrom, apk);
@@ -89,7 +87,7 @@ class UtilsDisplay {
     }
 
     static void showUpdateAvailableNotification(Context context, String title, String content, UpdateFrom updateFrom, URL apk, int smallIconResourceId) {
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, context.getPackageManager().getLaunchIntentForPackage(UtilsLibrary.getAppPackageName(context)), PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, context.getPackageManager().getLaunchIntentForPackage(UtilsLibrary.getRomPackageName(context)), PendingIntent.FLAG_CANCEL_CURRENT);
         PendingIntent pendingIntentUpdate = PendingIntent.getActivity(context, 0, UtilsLibrary.intentToUpdate(context, updateFrom, apk), PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
@@ -101,14 +99,14 @@ class UtilsDisplay {
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true)
-                .addAction(R.drawable.ic_system_update_white_24dp, context.getResources().getString(R.string.appupdater_btn_update), pendingIntentUpdate);
+                .addAction(R.drawable.ic_system_update_white_24dp, context.getResources().getString(R.string.romupdater_btn_update), pendingIntentUpdate);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, builder.build());
     }
 
     static void showUpdateNotAvailableNotification(Context context, String title, String content, int smallIconResourceId) {
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, context.getPackageManager().getLaunchIntentForPackage(UtilsLibrary.getAppPackageName(context)), PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, context.getPackageManager().getLaunchIntentForPackage(UtilsLibrary.getRomPackageName(context)), PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentIntent(contentIntent)

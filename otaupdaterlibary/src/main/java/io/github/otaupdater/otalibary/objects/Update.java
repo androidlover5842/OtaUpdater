@@ -5,13 +5,13 @@ import java.net.URL;
 public class Update {
     private String version;
     private String releaseNotes;
-    private URL apk;
+    private URL RomZip;
 
     public Update() {}
 
     public Update(String latestVersion, String releaseNotes, URL apk) {
         this.version = latestVersion;
-        this.apk = apk;
+        this.RomZip = apk;
         this.releaseNotes = releaseNotes;
     }
 
@@ -32,10 +32,10 @@ public class Update {
     }
 
     public URL getUrlToDownload() {
-        return apk;
+        return RomZip;
     }
 
     public void setUrlToDownload(URL apk) {
-        this.apk = apk;
+        this.RomZip = apk;
     }
 }

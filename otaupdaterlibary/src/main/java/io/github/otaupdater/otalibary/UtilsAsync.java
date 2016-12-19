@@ -5,13 +5,12 @@ import android.os.AsyncTask;
 
 import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
-import io.github.otaupdater.otalibary.objects.GitHub;
 import io.github.otaupdater.otalibary.objects.Update;
 
 
 class UtilsAsync {
 
-    static class LatestAppVersion extends AsyncTask<Void, Void, Update> {
+    static class LatestRomVersion extends AsyncTask<Void, Void, Update> {
         private Context context;
         private LibraryPreferences libraryPreferences;
         private Boolean fromUtils;
@@ -19,7 +18,7 @@ class UtilsAsync {
         private String xmlOrJsonUrl;
         private RomUpdater.LibraryListener listener;
 
-        public LatestAppVersion(Context context, Boolean fromUtils, UpdateFrom updateFrom, GitHub gitHub, String xmlOrJsonUrl, RomUpdater.LibraryListener listener) {
+        public LatestRomVersion(Context context, Boolean fromUtils, UpdateFrom updateFrom, String xmlOrJsonUrl, RomUpdater.LibraryListener listener) {
             this.context = context;
             this.libraryPreferences = new LibraryPreferences(context);
             this.fromUtils = fromUtils;
@@ -33,7 +32,7 @@ class UtilsAsync {
             super.onPreExecute();
 
             if (UtilsLibrary.isNetworkAvailable(context)) {
-                if (!fromUtils && !libraryPreferences.getAppUpdaterShow()) {
+                if (!fromUtils && !libraryPreferences.getRomUpdaterShow()) {
                     cancel(true);
                 } else {
                     if (updateFrom == UpdateFrom.XML && (xmlOrJsonUrl == null || !UtilsLibrary.isStringAnUrl(xmlOrJsonUrl))) {
@@ -55,7 +54,7 @@ class UtilsAsync {
         @Override
         protected Update doInBackground(Void... voids) {
             if (updateFrom == UpdateFrom.XML || updateFrom == UpdateFrom.JSON) {
-                Update update = UtilsLibrary.getLatestAppVersion(updateFrom, xmlOrJsonUrl);
+                Update update = UtilsLibrary.getLatestRomVersion(updateFrom, xmlOrJsonUrl);
                     if (update != null) {
                     return update;
                 } else {

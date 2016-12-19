@@ -17,7 +17,6 @@ import java.util.Locale;
 
 import io.github.otaupdater.otalibary.enums.Duration;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
-import io.github.otaupdater.otalibary.objects.GitHub;
 import io.github.otaupdater.otalibary.objects.Update;
 import io.github.otaupdater.otalibary.objects.Version;
 import io.github.otaupdater.otalibary.util.ShellExecuter;
@@ -28,15 +27,15 @@ import okhttp3.ResponseBody;
 
 class UtilsLibrary {
 
-    static String getAppName(Context context) {
+    static String getRomName(Context context) {
         return context.getString(context.getApplicationInfo().labelRes);
     }
 
-    static String getAppPackageName(Context context) {
+    static String getRomPackageName(Context context) {
         return context.getPackageName();
     }
 
-    static String getAppInstalledVersion() {
+    static String getRomInstalledVersion() {
         String version;
         ShellExecuter.command="getprop ro.build.date.utc";
         version=ShellExecuter.runAsRoot();
@@ -81,12 +80,12 @@ class UtilsLibrary {
         return res;
     }
 
-    static URL getUpdateURL(Context context, UpdateFrom updateFrom, GitHub gitHub) {
+    static URL getUpdateURL(Context context, UpdateFrom updateFrom) {
         String res;
 
         switch (updateFrom) {
             default:
-                res = String.format(Config.PLAY_STORE_URL, getAppPackageName(context), Locale.getDefault().getLanguage());
+                res = String.format(getRomPackageName(context), Locale.getDefault().getLanguage());
                 break;
         }
 
@@ -98,11 +97,11 @@ class UtilsLibrary {
 
     }
 
-    static Update getLatestAppVersionHttp(Context context, UpdateFrom updateFrom, GitHub gitHub) {
+    static Update getLatestRomVersionHttp(Context context, UpdateFrom updateFrom) {
         Boolean isAvailable = false;
         String source = "";
         OkHttpClient client = new OkHttpClient();
-        URL url = getUpdateURL(context, updateFrom, gitHub);
+        URL url = getUpdateURL(context, updateFrom);
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -114,19 +113,6 @@ class UtilsLibrary {
             BufferedReader reader = new BufferedReader(new InputStreamReader(body.byteStream(), "UTF-8"));
             StringBuilder str = new StringBuilder();
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                switch (updateFrom) {
-                    default:
-                        if (line.contains(Config.PLAY_STORE_TAG_RELEASE)) {
-                            str.append(line);
-                            isAvailable = true;
-                        }
-                        break;
-
-                }
-            }
-
             if (str.length() == 0) {
                 Log.e("RomUpdater", "Cannot retrieve latest version. Is it configured properly?");
             }
@@ -134,7 +120,7 @@ class UtilsLibrary {
             response.body().close();
             source = str.toString();
         } catch (FileNotFoundException e) {
-            Log.e("RomUpdater", "App wasn't found in the provided source. Is it published?");
+            Log.e("RomUpdater", "Rom wasn't found in the provided source. Is it published?");
         } catch (IOException ignore) {
 
         } finally {
@@ -145,7 +131,7 @@ class UtilsLibrary {
 
         final String version = getVersion(updateFrom, isAvailable, source);
         final String recentChanges = getRecentChanges(updateFrom, isAvailable, source);
-        final URL updateUrl = getUpdateURL(context, updateFrom, gitHub);
+        final URL updateUrl = getUpdateURL(context, updateFrom);
 
         return new Update(version, recentChanges, updateUrl);
     }
@@ -155,11 +141,7 @@ class UtilsLibrary {
         if (isAvailable) {
             switch (updateFrom) {
                 default:
-                    String[] splitPlayStore = source.split(Config.PLAY_STORE_TAG_RELEASE);
-                    if (splitPlayStore.length > 1) {
-                        splitPlayStore = splitPlayStore[1].split("(<)");
-                        version = splitPlayStore[0].trim();
-                    }
+                        version = null;
                     break;
             }
         }
@@ -169,21 +151,13 @@ class UtilsLibrary {
     private static String getRecentChanges(UpdateFrom updateFrom, Boolean isAvailable, String source) {
         String recentChanges = "";
         if (isAvailable) {
-            switch (updateFrom) {
-                default:
-                    String[] splitPlayStore = source.split(Config.PLAY_STORE_TAG_CHANGES);
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 1; i < splitPlayStore.length; i++) {
-                        sb.append(splitPlayStore[i].split("(<)")[0]).append("\n");
-                    }
-                    recentChanges = sb.toString();
-                    break;
-            }
+
+            recentChanges = null;
         }
         return recentChanges;
     }
 
-    static Update getLatestAppVersion(UpdateFrom updateFrom, String url) {
+    static Update getLatestRomVersion(UpdateFrom updateFrom, String url) {
         if (updateFrom == UpdateFrom.XML){
             RssParser parser = new RssParser(url);
             return parser.parse();

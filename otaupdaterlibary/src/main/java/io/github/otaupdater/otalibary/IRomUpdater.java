@@ -17,7 +17,6 @@ public interface IRomUpdater {
      *
      * @param display how the update will be shown
      * @return this
-     * @see com.github.javiersantos.appupdater.enums.Display
      */
     RomUpdater setDisplay(Display display);
 
@@ -26,8 +25,7 @@ public interface IRomUpdater {
      *
      * @param updateFrom source where the latest update is uploaded. If GITHUB is selected, .setGitHubAndRepo method is required.
      * @return this
-     * @see com.github.javiersantos.appupdater.enums.UpdateFrom
-     * @see <a href="https://github.com/javiersantos/AppUpdater/wiki">Additional documentation</a>
+     * @see <a href="https://github.com/grace5921/RomUpdater/wiki">Additional documentation</a>
      */
     RomUpdater setUpdateFrom(UpdateFrom updateFrom);
 
@@ -36,7 +34,6 @@ public interface IRomUpdater {
      *
      * @param duration duration of the Snackbar
      * @return this
-     * @see com.github.javiersantos.appupdater.enums.Duration
      */
     RomUpdater setDuration(Duration duration);
 
@@ -80,7 +77,7 @@ public interface IRomUpdater {
      * @param res true to show, false otherwise
      * @return this
      */
-    RomUpdater showAppUpdated(Boolean res);
+    RomUpdater showRomUpdated(Boolean res);
 
     /**
      * Set a custom title for the dialog when an update is available.

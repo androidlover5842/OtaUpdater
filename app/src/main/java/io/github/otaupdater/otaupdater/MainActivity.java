@@ -11,8 +11,8 @@ import android.view.View;
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.enums.Animation;
 
-import io.github.otaupdater.otalibary.AppUpdaterUtils;
-import io.github.otaupdater.otalibary.enums.AppUpdaterError;
+import io.github.otaupdater.otalibary.RomUpdaterUtils;
+import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
 
@@ -26,14 +26,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AppUpdaterUtils appUpdaterUtils = new AppUpdaterUtils(this)
+        RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.XML)
                 .setUpdateXML("https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/Updater.xml")
-                .withListener(new AppUpdaterUtils.UpdateListener() {
+                .withListener(new RomUpdaterUtils.UpdateListener() {
                     @Override
                     public void onSuccess(final Update update, Boolean isUpdateAvailable) {
                         Log.d("Found", "Update Found");
-                        Log.d("AppUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
+                        Log.d("RomUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
                         if(isUpdateAvailable==true)
                         {
                             UpdaterDialog = new PanterDialog(MainActivity.this);
@@ -64,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                     @Override
-                    public void onFailed(AppUpdaterError error) {
-                        Log.d("AppUpdater", "Something went wrong");
+                    public void onFailed(RomUpdaterError error) {
+                        Log.d("RomUpdater", "Something went wrong");
                     }
 
                 });
-        appUpdaterUtils.start();
+        romUpdaterUtils.start();
 
     }
 }

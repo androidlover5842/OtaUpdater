@@ -1,6 +1,6 @@
 package io.github.otaupdater.otalibary.enums;
 
-public enum AppUpdaterError {
+public enum RomUpdaterError {
     /**
      * Google Play returned "Varies by device"
      */

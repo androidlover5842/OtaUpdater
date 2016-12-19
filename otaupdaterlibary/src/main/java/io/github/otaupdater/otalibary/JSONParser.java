@@ -52,7 +52,7 @@ public class JSONParser {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (JSONException e) {
-            Log.e("AppUpdater", "The JSON updater file is mal-formatted. AppUpdate can't check for updates.");
+            Log.e("RomUpdater", "The JSON updater file is mal-formatted. AppUpdate can't check for updates.");
         }
 
         return null;

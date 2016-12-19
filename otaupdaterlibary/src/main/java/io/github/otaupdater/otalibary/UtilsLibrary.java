@@ -154,13 +154,13 @@ class UtilsLibrary {
             }
 
             if (str.length() == 0) {
-                Log.e("AppUpdater", "Cannot retrieve latest version. Is it configured properly?");
+                Log.e("RomUpdater", "Cannot retrieve latest version. Is it configured properly?");
             }
 
             response.body().close();
             source = str.toString();
         } catch (FileNotFoundException e) {
-            Log.e("AppUpdater", "App wasn't found in the provided source. Is it published?");
+            Log.e("RomUpdater", "App wasn't found in the provided source. Is it published?");
         } catch (IOException ignore) {
 
         } finally {

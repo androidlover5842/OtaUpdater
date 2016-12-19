@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_romupdater"/>
+    <string name="library_romupdater_author" translatable="false">Grace5921</string>
+    <string name="library_romupdater_authorWebsite" translatable="false">https://github.com/grace5921</string>
+    <string name="library_romupdater_libraryName" translatable="false">Romupdater</string>
+    <string name="library_romupdater_libraryDescription">Romupdater is a library that checks for your apps\' updates on Google Play, GitHub, Amazon and F-Droid, showing a Material dialog, Snackbar or notification when a new version is available.</string>
+    <string name="library_romupdater_libraryWebsite" translatable="false">https://github.com/grace5921/Otaupdater</string>
+    <string name="library_romupdater_licenseId" translatable="false">apache_2_0</string>
+    <string name="library_romupdater_isOpenSource" translatable="false">true</string>
+    <string name="library_romupdater_repositoryLink" translatable="false">https://github.com/grace5921/OtaUpdate</string>
+</resources>

@@ -9,13 +9,10 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.github.javiersantos.appupdater.R;
-
-import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.Display;
 import io.github.otaupdater.otalibary.enums.Duration;
+import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
-import io.github.otaupdater.otalibary.objects.GitHub;
 import io.github.otaupdater.otalibary.objects.Update;
 
 public class RomUpdater implements IRomUpdater {
@@ -24,14 +21,13 @@ public class RomUpdater implements IRomUpdater {
     private Display display;
     private UpdateFrom updateFrom;
     private Duration duration;
-    private GitHub gitHub;
     private String xmlOrJsonUrl;
     private Integer showEvery;
-    private Boolean showAppUpdated;
+    private Boolean showRomUpdated;
     private String titleUpdate, descriptionUpdate, btnDismiss, btnUpdate, btnDisable; // Update available
     private String titleNoUpdate, descriptionNoUpdate; // Update not available
     private int iconResId;
-    private UtilsAsync.LatestAppVersion latestAppVersion;
+    private UtilsAsync.LatestRomVersion latestromVersion;
 
     private AlertDialog alertDialog;
     private Snackbar snackbar;
@@ -42,15 +38,15 @@ public class RomUpdater implements IRomUpdater {
         this.display = Display.DIALOG;
         this.duration = Duration.NORMAL;
         this.showEvery = 1;
-        this.showAppUpdated = false;
+        this.showRomUpdated = false;
         this.iconResId = R.drawable.ic_stat_name;
 
         // Dialog
-        this.titleUpdate = context.getResources().getString(R.string.appupdater_update_available);
-        this.titleNoUpdate = context.getResources().getString(R.string.appupdater_update_not_available);
-        this.btnUpdate = context.getResources().getString(R.string.appupdater_btn_update);
-        this.btnDismiss = context.getResources().getString(R.string.appupdater_btn_dismiss);
-        this.btnDisable = context.getResources().getString(R.string.appupdater_btn_disable);
+        this.titleUpdate = context.getResources().getString(R.string.romupdater_update_available);
+        this.titleNoUpdate = context.getResources().getString(R.string.romupdater_update_not_available);
+        this.btnUpdate = context.getResources().getString(R.string.romupdater_btn_update);
+        this.btnDismiss = context.getResources().getString(R.string.romupdater_btn_dismiss);
+        this.btnDisable = context.getResources().getString(R.string.romupdater_btn_disable);
     }
 
     @Override
@@ -73,7 +69,6 @@ public class RomUpdater implements IRomUpdater {
 
     @Override
     public RomUpdater setGitHubUserAndRepo(@NonNull String user, @NonNull String repo) {
-        this.gitHub = new GitHub(user, repo);
         return this;
     }
 
@@ -97,8 +92,8 @@ public class RomUpdater implements IRomUpdater {
     }
 
     @Override
-    public RomUpdater showAppUpdated(Boolean res) {
-        this.showAppUpdated = res;
+    public RomUpdater showRomUpdated(Boolean res) {
+        this.showRomUpdated = res;
         return this;
     }
 
@@ -298,10 +293,10 @@ public class RomUpdater implements IRomUpdater {
 
     @Override
     public void start() {
-        latestAppVersion = new UtilsAsync.LatestAppVersion(context, false, updateFrom, gitHub, xmlOrJsonUrl, new LibraryListener() {
+        latestromVersion = new UtilsAsync.LatestRomVersion(context, false, updateFrom, xmlOrJsonUrl, new LibraryListener() {
             @Override
             public void onSuccess(Update update) {
-                if (UtilsLibrary.isUpdateAvailable(UtilsLibrary.getAppInstalledVersion(), update.getLatestVersion())) {
+                if (UtilsLibrary.isUpdateAvailable(UtilsLibrary.getRomInstalledVersion(), update.getLatestVersion())) {
                     Integer successfulChecks = libraryPreferences.getSuccessfulChecks();
                     if (UtilsLibrary.isAbleToShow(successfulChecks, showEvery)) {
                         switch (display) {
@@ -319,7 +314,7 @@ public class RomUpdater implements IRomUpdater {
                         }
                     }
                     libraryPreferences.setSuccessfulChecks(successfulChecks + 1);
-                } else if (showAppUpdated) {
+                } else if (showRomUpdated) {
                     switch (display) {
                         case DIALOG:
                             alertDialog = UtilsDisplay.showUpdateNotAvailableDialog(context, titleNoUpdate, getDescriptionNoUpdate(context));
@@ -340,8 +335,6 @@ public class RomUpdater implements IRomUpdater {
             public void onFailed(RomUpdaterError error) {
                 if (error == RomUpdaterError.UPDATE_VARIES_BY_DEVICE) {
                     Log.e("RomUpdater", "UpdateFrom.GOOGLE_PLAY isn't valid: update varies by device.");
-                } else if (error == RomUpdaterError.GITHUB_USER_REPO_INVALID) {
-                    throw new IllegalArgumentException("GitHub user or repo is empty!");
                 } else if (error == RomUpdaterError.XML_URL_MALFORMED) {
                     throw new IllegalArgumentException("XML file is not valid!");
                 } else if (error == RomUpdaterError.JSON_URL_MALFORMED) {
@@ -350,13 +343,13 @@ public class RomUpdater implements IRomUpdater {
             }
         });
 
-        latestAppVersion.execute();
+        latestromVersion.execute();
     }
 
     @Override
     public void stop() {
-        if (latestAppVersion != null && !latestAppVersion.isCancelled()) {
-            latestAppVersion.cancel(true);
+        if (latestromVersion != null && !latestromVersion.isCancelled()) {
+            latestromVersion.cancel(true);
         }
     }
 
@@ -375,16 +368,16 @@ public class RomUpdater implements IRomUpdater {
             switch (display) {
                 case DIALOG:
                     if (update.getReleaseNotes() != null && !TextUtils.isEmpty(update.getReleaseNotes())) {
-                        return String.format(context.getResources().getString(R.string.appupdater_update_available_description_dialog_before_release_notes), update.getLatestVersion(), update.getReleaseNotes());
+                        return String.format(context.getResources().getString(R.string.romupdater_update_available_description_dialog_before_release_notes), update.getLatestVersion(), update.getReleaseNotes());
                     } else {
-                        return String.format(context.getResources().getString(R.string.appupdater_update_available_description_dialog), update.getLatestVersion(), UtilsLibrary.getAppName(context));
+                        return String.format(context.getResources().getString(R.string.romupdater_update_available_description_dialog), update.getLatestVersion(), UtilsLibrary.getRomName(context));
                     }
 
                 case SNACKBAR:
-                    return String.format(context.getResources().getString(R.string.appupdater_update_available_description_snackbar), update.getLatestVersion());
+                    return String.format(context.getResources().getString(R.string.romupdater_update_available_description_snackbar), update.getLatestVersion());
 
                 case NOTIFICATION:
-                    return String.format(context.getResources().getString(R.string.appupdater_update_available_description_notification), update.getLatestVersion(), UtilsLibrary.getAppName(context));
+                    return String.format(context.getResources().getString(R.string.romupdater_update_available_description_notification), update.getLatestVersion(), UtilsLibrary.getRomName(context));
 
             }
         }
@@ -394,7 +387,7 @@ public class RomUpdater implements IRomUpdater {
 
     private String getDescriptionNoUpdate(Context context) {
         if (descriptionNoUpdate == null) {
-            return String.format(context.getResources().getString(R.string.appupdater_update_not_available_description), UtilsLibrary.getAppName(context));
+            return String.format(context.getResources().getString(R.string.romupdater_update_not_available_description), UtilsLibrary.getRomName(context));
         } else {
             return descriptionNoUpdate;
         }

@@ -5,18 +5,16 @@ import android.support.annotation.NonNull;
 
 import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
-import io.github.otaupdater.otalibary.objects.GitHub;
 import io.github.otaupdater.otalibary.objects.Update;
 
 
 public class RomUpdaterUtils {
     private Context context;
     private UpdateListener updateListener;
-    private AppUpdaterListener appUpdaterListener;
+    private RomUpdaterListener romUpdaterListener;
     private UpdateFrom updateFrom;
-    private GitHub gitHub;
     private String xmlOrJSONUrl;
-    private UtilsAsync.LatestAppVersion latestAppVersion;
+    private UtilsAsync.LatestRomVersion latestRomVersion;
 
     public interface UpdateListener {
         /**
@@ -24,7 +22,6 @@ public class RomUpdaterUtils {
          * onFailed method called if it can't retrieve the latest version
          *
          * @param update            object with the latest update information: version and url to download
-         * @see com.github.javiersantos.appupdater.objects.Update
          * @param isUpdateAvailable compare installed version with the latest one
          */
         void onSuccess(Update update, Boolean isUpdateAvailable);
@@ -33,7 +30,7 @@ public class RomUpdaterUtils {
     }
 
     @Deprecated
-    public interface AppUpdaterListener {
+    public interface RomUpdaterListener {
         /**
          * onSuccess method called after it is successful
          * onFailed method called if it can't retrieve the latest version
@@ -55,8 +52,7 @@ public class RomUpdaterUtils {
      *
      * @param updateFrom source where the latest update is uploaded. If GITHUB is selected, .setGitHubAndRepo method is required.
      * @return this
-     * @see com.github.javiersantos.appupdater.enums.UpdateFrom
-     * @see <a href="https://github.com/javiersantos/AppUpdater/wiki">Additional documentation</a>
+     * @see <a href="https://github.com/grace5921/OtaUpdater/wiki">Additional documentation</a>
      */
     public RomUpdaterUtils setUpdateFrom(UpdateFrom updateFrom) {
         this.updateFrom = updateFrom;
@@ -71,7 +67,6 @@ public class RomUpdaterUtils {
      * @return this
      */
     public RomUpdaterUtils setGitHubUserAndRepo(String user, String repo) {
-        this.gitHub = new GitHub(user, repo);
         return this;
     }
 
@@ -101,13 +96,12 @@ public class RomUpdaterUtils {
     /**
      * Method to set the AppUpdaterListener for the RomUpdaterUtils actions
      *
-     * @param appUpdaterListener the listener to be notified
+     * @param RomUpdaterListener the listener to be notified
      * @return this
-     * @see com.github.javiersantos.appupdater.AppUpdaterUtils.AppUpdaterListener
      * @deprecated
      */
-    public RomUpdaterUtils withListener(AppUpdaterListener appUpdaterListener) {
-        this.appUpdaterListener = appUpdaterListener;
+    public RomUpdaterUtils withListener(RomUpdaterListener RomUpdaterListener) {
+        this.romUpdaterListener = RomUpdaterListener;
         return this;
     }
 
@@ -116,7 +110,6 @@ public class RomUpdaterUtils {
      *
      * @param updateListener the listener to be notified
      * @return this
-     * @see com.github.javiersantos.appupdater.AppUpdaterUtils.UpdateListener
      */
     public RomUpdaterUtils withListener(UpdateListener updateListener) {
         this.updateListener = updateListener;
@@ -127,13 +120,13 @@ public class RomUpdaterUtils {
      * Execute RomUpdaterUtils in background.
      */
     public void start() {
-        latestAppVersion = new UtilsAsync.LatestAppVersion(context, true, updateFrom, gitHub, xmlOrJSONUrl, new RomUpdater.LibraryListener() {
+        latestRomVersion = new UtilsAsync.LatestRomVersion(context, true, updateFrom, xmlOrJSONUrl, new RomUpdater.LibraryListener() {
             @Override
             public void onSuccess(Update update) {
                 if (updateListener != null) {
-                    updateListener.onSuccess(update, UtilsLibrary.isUpdateAvailable(UtilsLibrary.getAppInstalledVersion(), update.getLatestVersion()));
-                } else if (appUpdaterListener != null) {
-                    appUpdaterListener.onSuccess(update.getLatestVersion(), UtilsLibrary.isUpdateAvailable(UtilsLibrary.getAppInstalledVersion(), update.getLatestVersion()));
+                    updateListener.onSuccess(update, UtilsLibrary.isUpdateAvailable(UtilsLibrary.getRomInstalledVersion(), update.getLatestVersion()));
+                } else if (romUpdaterListener != null) {
+                    romUpdaterListener.onSuccess(update.getLatestVersion(), UtilsLibrary.isUpdateAvailable(UtilsLibrary.getRomInstalledVersion(), update.getLatestVersion()));
                 } else {
                     throw new RuntimeException("You must provide a listener for the RomUpdaterUtils");
                 }
@@ -143,23 +136,23 @@ public class RomUpdaterUtils {
             public void onFailed(RomUpdaterError error) {
                 if (updateListener != null) {
                     updateListener.onFailed(error);
-                } else if (appUpdaterListener != null) {
-                    appUpdaterListener.onFailed(error);
+                } else if (romUpdaterListener != null) {
+                    romUpdaterListener.onFailed(error);
                 } else {
                     throw new RuntimeException("You must provide a listener for the RomUpdaterUtils");
                 }
             }
         });
 
-        latestAppVersion.execute();
+        latestRomVersion.execute();
     }
 
     /**
      * Stops the execution of RomUpdater.
      */
     public void stop() {
-        if (latestAppVersion != null && !latestAppVersion.isCancelled()) {
-            latestAppVersion.cancel(true);
+        if (latestRomVersion != null && !latestRomVersion.isCancelled()) {
+            latestRomVersion.cancel(true);
         }
     }
 }

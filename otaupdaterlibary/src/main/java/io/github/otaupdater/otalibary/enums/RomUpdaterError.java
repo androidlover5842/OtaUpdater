@@ -7,11 +7,6 @@ public enum RomUpdaterError {
     UPDATE_VARIES_BY_DEVICE,
 
     /**
-     * GitHub user or repo is empty
-     */
-    GITHUB_USER_REPO_INVALID,
-
-    /**
      * No Internet connection available
      */
     NETWORK_NOT_AVAILABLE,

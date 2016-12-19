@@ -20,9 +20,9 @@ import io.github.otaupdater.otalibary.objects.Update;
 public class JSONParser {
     private URL jsonUrl;
 
-    private static final String KEY_LATEST_VERSION = "latestVersion";
-    private static final String KEY_RELEASE_NOTES = "releaseNotes";
-    private static final String KEY_URL = "url";
+    private static final String KEY_LATEST_VERSION = "RomLatestVersion";
+    private static final String KEY_RELEASE_NOTES = "Changelog";
+    private static final String KEY_URL = "URL";
 
     public JSONParser(String url) {
         try {
@@ -52,7 +52,7 @@ public class JSONParser {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (JSONException e) {
-            Log.e("RomUpdater", "The JSON updater file is mal-formatted. AppUpdate can't check for updates.");
+            Log.e("RomUpdater", "The JSON updater file is mal-formatted. RomUpdate can't check for updates.");
         }
 
         return null;

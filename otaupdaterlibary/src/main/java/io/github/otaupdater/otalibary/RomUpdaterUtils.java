@@ -3,13 +3,13 @@ package io.github.otaupdater.otalibary;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import io.github.otaupdater.otalibary.enums.AppUpdaterError;
+import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.GitHub;
 import io.github.otaupdater.otalibary.objects.Update;
 
 
-public class AppUpdaterUtils {
+public class RomUpdaterUtils {
     private Context context;
     private UpdateListener updateListener;
     private AppUpdaterListener appUpdaterListener;
@@ -29,7 +29,7 @@ public class AppUpdaterUtils {
          */
         void onSuccess(Update update, Boolean isUpdateAvailable);
 
-        void onFailed(AppUpdaterError error);
+        void onFailed(RomUpdaterError error);
     }
 
     @Deprecated
@@ -43,10 +43,10 @@ public class AppUpdaterUtils {
          */
         void onSuccess(String latestVersion, Boolean isUpdateAvailable);
 
-        void onFailed(AppUpdaterError error);
+        void onFailed(RomUpdaterError error);
     }
 
-    public AppUpdaterUtils(Context context) {
+    public RomUpdaterUtils(Context context) {
         this.context = context;
         this.updateFrom = UpdateFrom.GOOGLE_PLAY;
     }
@@ -59,7 +59,7 @@ public class AppUpdaterUtils {
      * @see com.github.javiersantos.appupdater.enums.UpdateFrom
      * @see <a href="https://github.com/javiersantos/AppUpdater/wiki">Additional documentation</a>
      */
-    public AppUpdaterUtils setUpdateFrom(UpdateFrom updateFrom) {
+    public RomUpdaterUtils setUpdateFrom(UpdateFrom updateFrom) {
         this.updateFrom = updateFrom;
         return this;
     }
@@ -71,7 +71,7 @@ public class AppUpdaterUtils {
      * @param repo GitHub repository
      * @return this
      */
-    public AppUpdaterUtils setGitHubUserAndRepo(String user, String repo) {
+    public RomUpdaterUtils setGitHubUserAndRepo(String user, String repo) {
         this.gitHub = new GitHub(user, repo);
         return this;
     }
@@ -82,7 +82,7 @@ public class AppUpdaterUtils {
      * @param xmlUrl file
      * @return this
      */
-    public AppUpdaterUtils setUpdateXML(@NonNull String xmlUrl) {
+    public RomUpdaterUtils setUpdateXML(@NonNull String xmlUrl) {
         this.xmlOrJSONUrl = xmlUrl;
         return this;
     }
@@ -93,42 +93,42 @@ public class AppUpdaterUtils {
      * @param jsonUrl file
      * @return this
      */
-    public AppUpdaterUtils setUpdateJSON(@NonNull String jsonUrl) {
+    public RomUpdaterUtils setUpdateJSON(@NonNull String jsonUrl) {
         this.xmlOrJSONUrl = jsonUrl;
         return this;
     }
 
 
     /**
-     * Method to set the AppUpdaterListener for the AppUpdaterUtils actions
+     * Method to set the AppUpdaterListener for the RomUpdaterUtils actions
      *
      * @param appUpdaterListener the listener to be notified
      * @return this
      * @see com.github.javiersantos.appupdater.AppUpdaterUtils.AppUpdaterListener
      * @deprecated
      */
-    public AppUpdaterUtils withListener(AppUpdaterListener appUpdaterListener) {
+    public RomUpdaterUtils withListener(AppUpdaterListener appUpdaterListener) {
         this.appUpdaterListener = appUpdaterListener;
         return this;
     }
 
     /**
-     * Method to set the UpdateListener for the AppUpdaterUtils actions
+     * Method to set the UpdateListener for the RomUpdaterUtils actions
      *
      * @param updateListener the listener to be notified
      * @return this
      * @see com.github.javiersantos.appupdater.AppUpdaterUtils.UpdateListener
      */
-    public AppUpdaterUtils withListener(UpdateListener updateListener) {
+    public RomUpdaterUtils withListener(UpdateListener updateListener) {
         this.updateListener = updateListener;
         return this;
     }
 
     /**
-     * Execute AppUpdaterUtils in background.
+     * Execute RomUpdaterUtils in background.
      */
     public void start() {
-        latestAppVersion = new UtilsAsync.LatestAppVersion(context, true, updateFrom, gitHub, xmlOrJSONUrl, new AppUpdater.LibraryListener() {
+        latestAppVersion = new UtilsAsync.LatestAppVersion(context, true, updateFrom, gitHub, xmlOrJSONUrl, new RomUpdater.LibraryListener() {
             @Override
             public void onSuccess(Update update) {
                 if (updateListener != null) {
@@ -136,18 +136,18 @@ public class AppUpdaterUtils {
                 } else if (appUpdaterListener != null) {
                     appUpdaterListener.onSuccess(update.getLatestVersion(), UtilsLibrary.isUpdateAvailable(UtilsLibrary.getAppInstalledVersion(), update.getLatestVersion()));
                 } else {
-                    throw new RuntimeException("You must provide a listener for the AppUpdaterUtils");
+                    throw new RuntimeException("You must provide a listener for the RomUpdaterUtils");
                 }
             }
 
             @Override
-            public void onFailed(AppUpdaterError error) {
+            public void onFailed(RomUpdaterError error) {
                 if (updateListener != null) {
                     updateListener.onFailed(error);
                 } else if (appUpdaterListener != null) {
                     appUpdaterListener.onFailed(error);
                 } else {
-                    throw new RuntimeException("You must provide a listener for the AppUpdaterUtils");
+                    throw new RuntimeException("You must provide a listener for the RomUpdaterUtils");
                 }
             }
         });
@@ -156,7 +156,7 @@ public class AppUpdaterUtils {
     }
 
     /**
-     * Stops the execution of AppUpdater.
+     * Stops the execution of RomUpdater.
      */
     public void stop() {
         if (latestAppVersion != null && !latestAppVersion.isCancelled()) {

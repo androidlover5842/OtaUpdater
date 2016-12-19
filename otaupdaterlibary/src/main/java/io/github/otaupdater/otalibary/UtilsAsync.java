@@ -3,7 +3,7 @@ package io.github.otaupdater.otalibary;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import io.github.otaupdater.otalibary.enums.AppUpdaterError;
+import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.GitHub;
 import io.github.otaupdater.otalibary.objects.Update;
@@ -18,9 +18,9 @@ class UtilsAsync {
         private UpdateFrom updateFrom;
         private GitHub gitHub;
         private String xmlOrJsonUrl;
-        private AppUpdater.LibraryListener listener;
+        private RomUpdater.LibraryListener listener;
 
-        public LatestAppVersion(Context context, Boolean fromUtils, UpdateFrom updateFrom, GitHub gitHub, String xmlOrJsonUrl, AppUpdater.LibraryListener listener) {
+        public LatestAppVersion(Context context, Boolean fromUtils, UpdateFrom updateFrom, GitHub gitHub, String xmlOrJsonUrl, RomUpdater.LibraryListener listener) {
             this.context = context;
             this.libraryPreferences = new LibraryPreferences(context);
             this.fromUtils = fromUtils;
@@ -39,20 +39,20 @@ class UtilsAsync {
                     cancel(true);
                 } else {
                     if (updateFrom == UpdateFrom.GITHUB && !GitHub.isGitHubValid(gitHub)) {
-                        listener.onFailed(AppUpdaterError.GITHUB_USER_REPO_INVALID);
+                        listener.onFailed(RomUpdaterError.GITHUB_USER_REPO_INVALID);
                         cancel(true);
                     } else if (updateFrom == UpdateFrom.XML && (xmlOrJsonUrl == null || !UtilsLibrary.isStringAnUrl(xmlOrJsonUrl))) {
-                        listener.onFailed(AppUpdaterError.XML_URL_MALFORMED);
+                        listener.onFailed(RomUpdaterError.XML_URL_MALFORMED);
 
                         cancel(true);
                     } else if (updateFrom == UpdateFrom.JSON && (xmlOrJsonUrl == null || !UtilsLibrary.isStringAnUrl(xmlOrJsonUrl))) {
-                        listener.onFailed(AppUpdaterError.JSON_URL_MALFORMED);
+                        listener.onFailed(RomUpdaterError.JSON_URL_MALFORMED);
 
                         cancel(true);
                     }
                 }
             } else {
-                listener.onFailed(AppUpdaterError.NETWORK_NOT_AVAILABLE);
+                listener.onFailed(RomUpdaterError.NETWORK_NOT_AVAILABLE);
                 cancel(true);
             }
         }
@@ -64,8 +64,8 @@ class UtilsAsync {
                     if (update != null) {
                     return update;
                 } else {
-                    AppUpdaterError error = updateFrom == UpdateFrom.XML ? AppUpdaterError.XML_ERROR
-                            : AppUpdaterError.JSON_ERROR;
+                    RomUpdaterError error = updateFrom == UpdateFrom.XML ? RomUpdaterError.XML_ERROR
+                            : RomUpdaterError.JSON_ERROR;
 
                     listener.onFailed(error);
                     cancel(true);
@@ -82,7 +82,7 @@ class UtilsAsync {
             if (UtilsLibrary.isStringAVersion(update.getLatestVersion())) {
                 listener.onSuccess(update);
             } else {
-                listener.onFailed(AppUpdaterError.UPDATE_VARIES_BY_DEVICE);
+                listener.onFailed(RomUpdaterError.UPDATE_VARIES_BY_DEVICE);
             }
         }
     }

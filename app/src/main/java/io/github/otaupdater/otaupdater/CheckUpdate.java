@@ -11,8 +11,8 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import io.github.otaupdater.otalibary.AppUpdaterUtils;
-import io.github.otaupdater.otalibary.enums.AppUpdaterError;
+import io.github.otaupdater.otalibary.RomUpdaterUtils;
+import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
 
@@ -30,14 +30,14 @@ public class CheckUpdate extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
-        AppUpdaterUtils appUpdaterUtils = new AppUpdaterUtils(this)
+        RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.XML)
                 .setUpdateXML("https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/Updater.xml")
-                .withListener(new AppUpdaterUtils.UpdateListener() {
+                .withListener(new RomUpdaterUtils.UpdateListener() {
                     @Override
                     public void onSuccess(final Update update, Boolean isUpdateAvailable) {
                         Log.d("Found", "Update Found");
-                        Log.d("AppUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
+                        Log.d("RomUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
                         if(isUpdateAvailable==true)
                         {
                             mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(CheckUpdate.this)
@@ -56,12 +56,12 @@ public class CheckUpdate extends Service {
 
                     }
                     @Override
-                    public void onFailed(AppUpdaterError error) {
-                        Log.d("AppUpdater", "Something went wrong");
+                    public void onFailed(RomUpdaterError error) {
+                        Log.d("RomUpdater", "Something went wrong");
                     }
 
                 });
-        appUpdaterUtils.start();
+        romUpdaterUtils.start();
 
         Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         return START_STICKY;

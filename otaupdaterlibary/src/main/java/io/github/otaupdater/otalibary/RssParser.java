@@ -45,13 +45,13 @@ class RssParser {
             parser.parse(inputStream, handler);
             return handler.getUpdate();
         } catch (ParserConfigurationException | SAXException e) {
-            Log.e("AppUpdater", "The XML updater file is mal-formatted. AppUpdate can't check for updates.", e);
+            Log.e("RomUpdater", "The XML updater file is mal-formatted. AppUpdate can't check for updates.", e);
             return null;
         } catch (FileNotFoundException | UnknownHostException | ConnectException e) {
-            Log.e("AppUpdater", "The XML updater file is invalid or is down. AppUpdate can't check for updates.");
+            Log.e("RomUpdater", "The XML updater file is invalid or is down. AppUpdate can't check for updates.");
             return null;
         } catch (IOException e) {
-            Log.e("AppUpdater", "I/O error. AppUpdate can't check for updates.", e);
+            Log.e("RomUpdater", "I/O error. AppUpdate can't check for updates.", e);
             return null;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -60,7 +60,7 @@ class RssParser {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    Log.e("AppUpdater", "Error closing input stream", e);
+                    Log.e("RomUpdater", "Error closing input stream", e);
                 }
             }
         }

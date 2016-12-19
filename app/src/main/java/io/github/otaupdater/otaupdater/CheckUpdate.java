@@ -1,12 +1,15 @@
 package io.github.otaupdater.otaupdater;
 
+import android.Manifest;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,6 +24,7 @@ import io.github.otaupdater.otalibary.objects.Update;
  */
 
 public class CheckUpdate extends Service {
+    private Context context;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -29,7 +33,7 @@ public class CheckUpdate extends Service {
     private NotificationCompat.Builder mBuilder;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Let it continue running until it is stopped.
+        checkPermission();
         RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.XML)
                 .setUpdateXML("https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/Updater.xml")
@@ -65,6 +69,11 @@ public class CheckUpdate extends Service {
 
         Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         return START_STICKY;
+    }
+    // Let it continue running until it is stopped.
+    public boolean checkPermission() {
+        return ActivityCompat.checkSelfPermission(CheckUpdate.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(CheckUpdate.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override

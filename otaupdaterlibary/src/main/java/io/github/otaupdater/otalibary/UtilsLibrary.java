@@ -37,7 +37,7 @@ class UtilsLibrary {
 
     static String getRomInstalledVersion() {
         String version;
-        ShellExecuter.command="getprop ro.build.date.utc";
+        ShellExecuter.command="getprop ro.rom.version";
         version=ShellExecuter.runAsRoot();
         return version;
     }

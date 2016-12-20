@@ -6,4 +6,5 @@
     <dimen name="main_frame_bottom">6pt</dimen>
     <dimen name="main_frame_left">2pt</dimen>
     <dimen name="main_frame_right">2pt</dimen>
+    <dimen name="title_margin_bottom">10pt</dimen>
 </resources>

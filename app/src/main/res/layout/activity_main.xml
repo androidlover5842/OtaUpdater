@@ -9,6 +9,18 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="io.github.otaupdater.otaupdater.MainActivity">
+
+
+
+    <TextView
+        android:text="Previous Releases"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/title_margin_bottom"
+        android:id="@+id/textView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="18sp" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:id="@+id/content_frame"
@@ -16,5 +28,9 @@
         android:paddingTop="@dimen/main_frame_top"
         android:paddingBottom="@dimen/main_frame_bottom"
         android:paddingRight="@dimen/main_frame_right"
-        android:paddingLeft="@dimen/main_frame_left"/>
+        android:paddingLeft="@dimen/main_frame_left"
+        android:background="@drawable/square"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

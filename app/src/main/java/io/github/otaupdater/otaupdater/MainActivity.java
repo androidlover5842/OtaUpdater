@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import io.github.otaupdater.otaupdater.fragment.GithubReleasesFragment;
 
 public class MainActivity extends AppCompatActivity {
+
     private GithubReleasesFragment mFragmentOldRelease;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

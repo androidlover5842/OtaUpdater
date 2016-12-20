@@ -1,4 +1,4 @@
-<RomUpdater>
+<AppUpdater>
     <update>
         <!-- getprop getprop ro.build.date.utc to get your new rom version-->
         <RomLatestVersion>1481233090</RomLatestVersion>
@@ -9,4 +9,4 @@
             - Test Updater
         </Changelog>
     </update>
-</RomUpdater>
+</AppUpdater>

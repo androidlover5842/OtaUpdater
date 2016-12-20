@@ -17,8 +17,6 @@ public class BootReceiver extends BroadcastReceiver {
     private static final String TAG = "UpdateCheckReceiver";
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent startServiceIntent = new Intent(context, CheckUpdate.class);
-        context.startService(startServiceIntent);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean bootCheckCompleted = prefs.getBoolean(Constants.BOOT_CHECK_COMPLETED, false);
 

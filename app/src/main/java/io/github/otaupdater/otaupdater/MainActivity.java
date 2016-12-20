@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.enums.Animation;
@@ -24,10 +25,12 @@ import static io.github.otaupdater.otaupdater.Config.UpdaterUri;
 public class MainActivity extends Activity {
     private PanterDialog UpdaterDialog;
     private DownloadManager downloadManager;
+    private ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.XML)
@@ -42,6 +45,7 @@ public class MainActivity extends Activity {
                     }
                         if(isUpdateAvailable==true)
                         {
+                            mProgressBar.setVisibility(View.GONE);
                             UpdaterDialog = new PanterDialog(MainActivity.this);
                             UpdaterDialog= new PanterDialog(MainActivity.this);
                             UpdaterDialog.setTitle("Update Found")

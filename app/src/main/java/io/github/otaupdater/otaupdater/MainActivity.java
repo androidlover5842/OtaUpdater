@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
     private PanterDialog UpdaterDialog;
     private DownloadManager downloadManager;
     private ProgressBar mProgressBar;
+    private String Tag="RomUpdater";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +42,31 @@ public class MainActivity extends Activity {
                     public void onSuccess(final Update update, Boolean isUpdateAvailable) {
                         if(Showlog().equals(true));
                         {
-                        Log.d("Found", "Update Found");
-                        Log.d("RomUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
+                        Log.d(Tag, "Update Found");
+                        Log.d(Tag, update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
                     }
+                        if(isUpdateAvailable==false){
+                            mProgressBar.setVisibility(View.GONE);
+                            UpdaterDialog.setTitle("No Updates Found")
+                                    .setHeaderBackground(R.color.colorPrimaryDark)
+                                    .setMessage("Try again later")
+                                    .setPositive("Ok", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            finish();
+                                            UpdaterDialog.dismiss();
+                                        }
+                                    })
+                                    .isCancelable(false)
+                                    .withAnimation(Animation.POP)
+                                    .show();
+                            if(Showlog().equals(true));
+                            {
+                                Log.i(Tag, "No update found "+String.valueOf(isUpdateAvailable));
+                            }
+
+                        }
+
                         if(isUpdateAvailable==true)
                         {
                             mProgressBar.setVisibility(View.GONE);
@@ -79,22 +102,6 @@ public class MainActivity extends Activity {
                             {
                                 Log.d("Found", String.valueOf(update.getUrlToDownload()));
                             }
-                        }
-                        if(isUpdateAvailable=false){
-                            UpdaterDialog.setTitle("No Updates Found")
-                                    .setHeaderBackground(R.color.colorPrimaryDark)
-                                    .setMessage("Try again later")
-                                    .setNegative("Ok", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            finish();
-                                            UpdaterDialog.dismiss();
-                                        }
-                                    })
-                                    .isCancelable(false)
-                                    .withAnimation(Animation.POP)
-                                    .show();
-
                         }
                     }
                     @Override

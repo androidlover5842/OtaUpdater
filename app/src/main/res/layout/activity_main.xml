@@ -12,5 +12,9 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:id="@+id/content_frame"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/main_frame_top"
+        android:paddingBottom="@dimen/main_frame_bottom"
+        android:paddingRight="@dimen/main_frame_right"
+        android:paddingLeft="@dimen/main_frame_left"/>
 </RelativeLayout>

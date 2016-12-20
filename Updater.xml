@@ -1,4 +1,4 @@
-<AppUpdater>
+<RomUpdater>
     <update>
         <latestVersion>1481233090</latestVersion>
         <url>https://github.com/Arubadel/Arubadel/releases/download/untagged-71b60b7351492a2477d1/app-release.apk</url>
@@ -6,4 +6,4 @@
             - Test Updater
         </releaseNotes>
     </update>
-</AppUpdater>
+</RomUpdater>

@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
+        UpdaterDialog= new PanterDialog(MainActivity.this);
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.XML)
@@ -46,8 +47,6 @@ public class MainActivity extends Activity {
                         if(isUpdateAvailable==true)
                         {
                             mProgressBar.setVisibility(View.GONE);
-                            UpdaterDialog = new PanterDialog(MainActivity.this);
-                            UpdaterDialog= new PanterDialog(MainActivity.this);
                             UpdaterDialog.setTitle("Update Found")
                                     .setHeaderBackground(R.color.colorPrimaryDark)
                                     .setMessage("Changelog :- \n\n"+update.getReleaseNotes())
@@ -81,7 +80,22 @@ public class MainActivity extends Activity {
                                 Log.d("Found", String.valueOf(update.getUrlToDownload()));
                             }
                         }
+                        if(isUpdateAvailable=false){
+                            UpdaterDialog.setTitle("No Updates Found")
+                                    .setHeaderBackground(R.color.colorPrimaryDark)
+                                    .setMessage("Try again later")
+                                    .setNegative("Ok", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            finish();
+                                            UpdaterDialog.dismiss();
+                                        }
+                                    })
+                                    .isCancelable(false)
+                                    .withAnimation(Animation.POP)
+                                    .show();
 
+                        }
                     }
                     @Override
                     public void onFailed(RomUpdaterError error) {

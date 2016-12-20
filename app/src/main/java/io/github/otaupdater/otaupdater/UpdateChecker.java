@@ -77,7 +77,7 @@ public class UpdateChecker extends Service {
 
                 });
         romUpdaterUtils.start();
-        if(ShowToast==true);
+        if(ShowToast().equals(true));
         {
             Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         }

@@ -11,17 +11,37 @@ import io.github.otaupdater.otalibary.util.ShellExecuter;
 public class Config {
     public static boolean ShowLog;
     public static String Showlog(){
-        ShellExecuter.command="getprop ro.otaupdate.enablelog";
+        ShellExecuter.command="getprop ro.otaupdate.enable_log";
         String output=ShellExecuter.runAsRoot();
+        if(output.equals(false))
+        {
+            ShowLog=false;
+        }else {
+            ShowLog=true;
+        }
         if(output==null)
         {
             ShowLog=true;
-        }else {
-            ShowLog=false;
         }
         return output;
     }
-    public static boolean ShowToast=true;
+    public static boolean ShowToast;
+    public static String ShowToast(){
+        String output;
+        ShellExecuter.command="getprop ro.otaupdate.enable_toast";
+        output=ShellExecuter.runAsRoot();
+        if(output.equals(false))
+        {
+            ShowToast=false;
+        }else {
+            ShowToast=true;
+        }
+        if(output==null)
+        {
+            ShowToast=true;
+        }
+        return output;
+    }
     public static String UpdaterUri(){
         ShellExecuter.command="getprop ro.updater.uri";
         String Output=ShellExecuter.runAsRoot();

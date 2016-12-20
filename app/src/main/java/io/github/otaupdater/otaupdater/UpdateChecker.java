@@ -49,9 +49,10 @@ public class UpdateChecker extends Service {
                         if(isUpdateAvailable==true)
                         {
                             mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(UpdateChecker.this)
-                                    .setSmallIcon(R.mipmap.ic_launcher)
-                                    .setContentTitle("Ota Update")
-                                    .setContentText("Found new update")
+                                    .setSmallIcon(R.drawable.ic_system_update_white_24dp)
+                                    .setContentTitle("Rom Updater")
+                                    .setContentText("Found Rom Update")
+                                    .setContentInfo("non")
                                     .setAutoCancel(true);
                             Intent intent = new Intent(UpdateChecker.this, MainActivity.class);
                             PendingIntent pi = PendingIntent.getActivity(UpdateChecker.this,0,intent,Intent.FLAG_ACTIVITY_NEW_TASK);

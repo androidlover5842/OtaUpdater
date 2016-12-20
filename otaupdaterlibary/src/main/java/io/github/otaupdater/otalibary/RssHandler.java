@@ -32,11 +32,11 @@ class RssHandler extends DefaultHandler {
         super.endElement(uri, localName, name);
 
         if (this.update != null) {
-            if (localName.equals("latestVersion")) {
+            if (localName.equals("RomLatestVersion")) {
                 update.setLatestVersion(builder.toString().trim());
-            } else if (localName.equals("releaseNotes")) {
+            } else if (localName.equals("Changelog")) {
                 update.setReleaseNotes(builder.toString().trim());
-            } else if (localName.equals("url")) {
+            } else if (localName.equals("URL")) {
                 try {
                     update.setUrlToDownload(new URL(builder.toString().trim()));
                 } catch (MalformedURLException e) {

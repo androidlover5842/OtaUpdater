@@ -54,7 +54,7 @@ public class UpdateChecker extends Service {
                                     .setContentText("Found Rom Update")
                                     .setContentInfo("non")
                                     .setAutoCancel(true);
-                            Intent intent = new Intent(UpdateChecker.this, MainActivity.class);
+                            Intent intent = new Intent(UpdateChecker.this, DialogActivity.class);
                             PendingIntent pi = PendingIntent.getActivity(UpdateChecker.this,0,intent,Intent.FLAG_ACTIVITY_NEW_TASK);
                             mBuilder.setContentIntent(pi);
                             NotificationManager mNotificationManager =

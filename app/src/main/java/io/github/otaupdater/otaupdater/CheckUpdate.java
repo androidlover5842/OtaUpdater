@@ -19,6 +19,8 @@ import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
 
+import static io.github.otaupdater.otaupdater.Config.UpdaterUri;
+
 /**
  * Created by sumit on 18/12/16.
  */
@@ -36,7 +38,7 @@ public class CheckUpdate extends Service {
         checkPermission();
         RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.XML)
-                .setUpdateXML("https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/Updater.xml")
+                .setUpdateXML(UpdaterUri())
                 .withListener(new RomUpdaterUtils.UpdateListener() {
                     @Override
                     public void onSuccess(final Update update, Boolean isUpdateAvailable) {

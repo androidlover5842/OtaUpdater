@@ -19,6 +19,8 @@ import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
 
+import static io.github.otaupdater.otaupdater.Config.ShowToast;
+import static io.github.otaupdater.otaupdater.Config.Showlog;
 import static io.github.otaupdater.otaupdater.Config.UpdaterUri;
 
 /**
@@ -42,8 +44,11 @@ public class CheckUpdate extends Service {
                 .withListener(new RomUpdaterUtils.UpdateListener() {
                     @Override
                     public void onSuccess(final Update update, Boolean isUpdateAvailable) {
+                        if(Showlog().equals(true));
+                        {
                         Log.d("Found", "Update Found");
                         Log.d("RomUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
+                        }
                         if(isUpdateAvailable==true)
                         {
                             mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(CheckUpdate.this)
@@ -57,19 +62,27 @@ public class CheckUpdate extends Service {
                             NotificationManager mNotificationManager =
                                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                             mNotificationManager.notify(0, mBuilder.build());
-                            Log.d("Found", String.valueOf(update.getUrlToDownload()));
+                            if(Showlog().equals(true));
+                            {
+                                Log.d("Found", String.valueOf(update.getUrlToDownload()));
+                            }
                         }
 
                     }
                     @Override
                     public void onFailed(RomUpdaterError error) {
-                        Log.d("RomUpdater", "Something went wrong");
+                        if(Showlog().equals(true));
+                        {
+                            Log.d("RomUpdater", "Something went wrong");
+                        }
                     }
 
                 });
         romUpdaterUtils.start();
-
-        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+        if(ShowToast==true);
+        {
+            Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+        }
         return START_STICKY;
     }
     // Let it continue running until it is stopped.
@@ -81,6 +94,9 @@ public class CheckUpdate extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+        if(ShowToast==true);
+        {
+            Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+        }
     }
 }

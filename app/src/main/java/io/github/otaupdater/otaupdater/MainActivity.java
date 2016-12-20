@@ -18,7 +18,8 @@ import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
 
-;import static io.github.otaupdater.otaupdater.Config.UpdaterUri;
+import static io.github.otaupdater.otaupdater.Config.Showlog;
+import static io.github.otaupdater.otaupdater.Config.UpdaterUri;
 
 public class MainActivity extends AppCompatActivity {
     private PanterDialog UpdaterDialog;
@@ -34,8 +35,11 @@ public class MainActivity extends AppCompatActivity {
                 .withListener(new RomUpdaterUtils.UpdateListener() {
                     @Override
                     public void onSuccess(final Update update, Boolean isUpdateAvailable) {
+                        if(Showlog().equals(true));
+                        {
                         Log.d("Found", "Update Found");
                         Log.d("RomUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
+                    }
                         if(isUpdateAvailable==true)
                         {
                             UpdaterDialog = new PanterDialog(MainActivity.this);
@@ -61,13 +65,20 @@ public class MainActivity extends AppCompatActivity {
                                     .setNegative("DISMISS")
                                     .isCancelable(false)
                                     .withAnimation(Animation.SIDE)
-                                    .show();                            Log.d("Found", String.valueOf(update.getUrlToDownload()));
+                                    .show();
+                            if(Showlog().equals(true));
+                            {
+                                Log.d("Found", String.valueOf(update.getUrlToDownload()));
+                            }
                         }
 
                     }
                     @Override
                     public void onFailed(RomUpdaterError error) {
-                        Log.d("RomUpdater", "Something went wrong");
+                        if(Showlog().equals(true));
+                        {
+                            Log.d("RomUpdater", "Something went wrong");
+                        }
                     }
 
                 });

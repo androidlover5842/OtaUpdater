@@ -9,6 +9,19 @@ import io.github.otaupdater.otalibary.util.ShellExecuter;
  */
 
 public class Config {
+    public static boolean ShowLog;
+    public static String Showlog(){
+        ShellExecuter.command="getprop ro.otaupdate.enablelog";
+        String output=ShellExecuter.runAsRoot();
+        if(output==null)
+        {
+            ShowLog=true;
+        }else {
+            ShowLog=false;
+        }
+        return output;
+    }
+    public static boolean ShowToast=true;
     public static String UpdaterUri(){
         ShellExecuter.command="getprop ro.updater.uri";
         String Output=ShellExecuter.runAsRoot();

@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.enums.Animation;
 
+import cn.refactor.lib.colordialog.PromptDialog;
 import io.github.otaupdater.otalibary.RomUpdaterUtils;
 import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
     private PanterDialog UpdaterDialog;
     private DownloadManager downloadManager;
     private ProgressBar mProgressBar;
+    private PromptDialog mNoUpdate;
     private String Tag="RomUpdater";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
         UpdaterDialog= new PanterDialog(MainActivity.this);
+        mNoUpdate = new PromptDialog(this);
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
                 .setUpdateFrom(UpdateFrom.XML)
@@ -47,24 +50,22 @@ public class MainActivity extends Activity {
                     }
                         if(isUpdateAvailable==false){
                             mProgressBar.setVisibility(View.GONE);
-                            UpdaterDialog.setTitle("No Updates Found")
-                                    .setHeaderBackground(R.color.colorPrimaryDark)
-                                    .setMessage("Try again later")
-                                    .setPositive("Ok", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            finish();
-                                            UpdaterDialog.dismiss();
-                                        }
-                                    })
-                                    .isCancelable(false)
-                                    .withAnimation(Animation.POP)
-                                    .show();
                             if(Showlog().equals(true));
                             {
                                 Log.i(Tag, "No update found "+String.valueOf(isUpdateAvailable));
                             }
-
+                            mNoUpdate.setTitle("No Updates Found");
+                            mNoUpdate.setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
+                                    .setAnimationEnable(true)
+                                    .setTitleText("No update found")
+                                    .setContentText("Try again later")
+                                    .setPositiveListener("Ok", new PromptDialog.OnPositiveListener() {
+                                        @Override
+                                        public void onClick(PromptDialog dialog) {
+                                            mNoUpdate.dismiss();
+                                            finish();
+                                        }
+                                    }).show();
                         }
 
                         if(isUpdateAvailable==true)

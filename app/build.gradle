@@ -48,6 +48,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.eminayar.panterdialog:panter-dialog:0.0.2.1'
+    compile 'com.github.andyxialm:ColorDialog:1.0.0'
     testCompile 'junit:junit:4.12'
     compile project(path: ':otaupdaterlibary')
 }

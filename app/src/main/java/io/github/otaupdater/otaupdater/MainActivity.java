@@ -1,12 +1,12 @@
 package io.github.otaupdater.otaupdater;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -21,7 +21,7 @@ import io.github.otaupdater.otalibary.objects.Update;
 import static io.github.otaupdater.otaupdater.Config.Showlog;
 import static io.github.otaupdater.otaupdater.Config.UpdaterUri;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private PanterDialog UpdaterDialog;
     private DownloadManager downloadManager;
     @Override
@@ -62,7 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
                                         }
                                     })
-                                    .setNegative("DISMISS")
+                                    .setNegative("DISMISS", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            finish();
+                                            UpdaterDialog.dismiss();
+                                        }
+                                    })
                                     .isCancelable(false)
                                     .withAnimation(Animation.SIDE)
                                     .show();

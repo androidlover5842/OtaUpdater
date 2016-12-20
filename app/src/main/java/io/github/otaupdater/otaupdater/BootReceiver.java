@@ -22,14 +22,8 @@ public class BootReceiver extends BroadcastReceiver {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean bootCheckCompleted = prefs.getBoolean(Constants.BOOT_CHECK_COMPLETED, false);
 
-        if (!bootCheckCompleted) {
-            Log.i(TAG, "Start an on-boot check");
-            Intent i = new Intent(context, CheckUpdate.class);
+            Log.i(TAG, "Starting");
+            Intent i = new Intent(context, UpdateChecker.class);
             context.startService(i);
-        } else {
-            // Nothing to do
-            Log.i(TAG, "On-boot update check was already completed.");
-            return;
-        }
     }
 }

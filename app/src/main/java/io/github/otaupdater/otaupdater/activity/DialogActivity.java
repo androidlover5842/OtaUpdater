@@ -3,6 +3,9 @@ package io.github.otaupdater.otaupdater.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,84 +41,113 @@ public class DialogActivity extends Activity {
         UpdaterDialog= new PanterDialog(DialogActivity.this);
         mNoUpdate = new PromptDialog(this);
         ActivityCompat.requestPermissions(DialogActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-        RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
-                .setUpdateFrom(UpdateFrom.XML)
-                .setUpdateXML(UpdaterUri())
-                .withListener(new RomUpdaterUtils.UpdateListener() {
-                    @Override
-                    public void onSuccess(final Update update, Boolean isUpdateAvailable) {
-                        if(Showlog().equals(true));
-                        {
-                        Log.d(Tag, "Update Found");
-                        Log.d(Tag, update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
-                    }
-                        if(isUpdateAvailable==false){
-                            mProgressBar.setVisibility(View.GONE);
-                            if(Showlog().equals(true));
+        if(isOnline()) {
+            RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
+                    .setUpdateFrom(UpdateFrom.XML)
+                    .setUpdateXML(UpdaterUri())
+                    .withListener(new RomUpdaterUtils.UpdateListener() {
+                        @Override
+                        public void onSuccess(final Update update, Boolean isUpdateAvailable) {
+                            if (Showlog().equals(true)) ;
                             {
-                                Log.i(Tag, "No update found "+String.valueOf(isUpdateAvailable));
+                                Log.d(Tag, "Update Found");
+                                Log.d(Tag, update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
                             }
-                            mNoUpdate.setTitle("No Updates Found");
-                            mNoUpdate.setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
-                                    .setAnimationEnable(true)
-                                    .setTitleText("No update found")
-                                    .setContentText("Try again later")
-                                    .setPositiveListener("Ok", new PromptDialog.OnPositiveListener() {
-                                        @Override
-                                        public void onClick(PromptDialog dialog) {
-                                            mNoUpdate.dismiss();
-                                            finish();
-                                        }
-                                    }).show();
+                            if (isUpdateAvailable == false) {
+                                mProgressBar.setVisibility(View.GONE);
+                                if (Showlog().equals(true)) ;
+                                {
+                                    Log.i(Tag, "No update found " + String.valueOf(isUpdateAvailable));
+                                }
+                                mNoUpdate.setTitle("No Updates Found");
+                                mNoUpdate.setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
+                                        .setAnimationEnable(true)
+                                        .setTitleText("No update found")
+                                        .setContentText("Try again later")
+                                        .setPositiveListener("Ok", new PromptDialog.OnPositiveListener() {
+                                            @Override
+                                            public void onClick(PromptDialog dialog) {
+                                                mNoUpdate.dismiss();
+                                                finish();
+                                            }
+                                        }).show();
+                            }
+
+                            if (isUpdateAvailable == true) {
+                                mProgressBar.setVisibility(View.GONE);
+                                UpdaterDialog.setTitle("Update Found")
+                                        .setHeaderBackground(R.color.colorPrimaryDark)
+                                        .setMessage("Changelog :- \n\n" + update.getReleaseNotes())
+                                        .setPositive("Download", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Uri uri = Uri.parse(String.valueOf(update.getUrlToDownload()));
+                                                downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                                                DownloadManager.Request request = new DownloadManager.Request(uri);
+                                                String fileName = uri.getLastPathSegment();
+                                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+
+                                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                                                Long reference = downloadManager.enqueue(request);
+                                                UpdaterDialog.dismiss();
+
+                                            }
+                                        })
+                                        .setNegative("DISMISS", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                finish();
+                                                UpdaterDialog.dismiss();
+                                            }
+                                        })
+                                        .isCancelable(false)
+                                        .withAnimation(Animation.SIDE)
+                                        .show();
+                                if (Showlog().equals(true)) ;
+                                {
+                                    Log.d("Found", String.valueOf(update.getUrlToDownload()));
+                                }
+                            }
                         }
 
-                        if(isUpdateAvailable==true)
-                        {
-                            mProgressBar.setVisibility(View.GONE);
-                            UpdaterDialog.setTitle("Update Found")
-                                    .setHeaderBackground(R.color.colorPrimaryDark)
-                                    .setMessage("Changelog :- \n\n"+update.getReleaseNotes())
-                                    .setPositive("Download",new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Uri uri = Uri.parse(String.valueOf(update.getUrlToDownload()));
-                                            downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                                            DownloadManager.Request request = new DownloadManager.Request(uri);
-                                            String  fileName = uri.getLastPathSegment();
-                                            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,fileName);
-
-                                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                                            Long reference = downloadManager.enqueue(request);
-                                            UpdaterDialog.dismiss();
-
-                                        }
-                                    })
-                                    .setNegative("DISMISS", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            finish();
-                                            UpdaterDialog.dismiss();
-                                        }
-                                    })
-                                    .isCancelable(false)
-                                    .withAnimation(Animation.SIDE)
-                                    .show();
-                            if(Showlog().equals(true));
+                        @Override
+                        public void onFailed(RomUpdaterError error) {
+                            if (Showlog().equals(true)) ;
                             {
-                                Log.d("Found", String.valueOf(update.getUrlToDownload()));
+                                Log.d("RomUpdater", "Something went wrong");
                             }
                         }
-                    }
-                    @Override
-                    public void onFailed(RomUpdaterError error) {
-                        if(Showlog().equals(true));
-                        {
-                            Log.d("RomUpdater", "Something went wrong");
-                        }
-                    }
 
-                });
-        romUpdaterUtils.start();
+                    });
+            romUpdaterUtils.start();
+        } else
+        {
+            mProgressBar.setVisibility(View.GONE);
+            mNoUpdate.setTitle("No network found");
+            mNoUpdate.setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
+                    .setAnimationEnable(true)
+                    .setTitleText("No network found")
+                    .setContentText("Please connect to network")
+                    .setPositiveListener("Ok", new PromptDialog.OnPositiveListener() {
+                        @Override
+                        public void onClick(PromptDialog dialog) {
+                            mNoUpdate.dismiss();
+                            finish();
+                        }
+                    }).show();
+
+        }
 
     }
+    public boolean isOnline() {
+        ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+        if(netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()){
+            Log.i(Tag,"No Internet connection");
+            return false;
+        }
+        return true;
+    }
+
 }

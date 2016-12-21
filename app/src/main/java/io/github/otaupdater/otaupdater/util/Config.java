@@ -10,7 +10,6 @@ import io.github.otaupdater.otalibary.util.ShellExecuter;
 
 public class Config {
     public static boolean ShowLog;
-    public static String URL_OLD_RELEASES;
     public static String URL_OLD_RELEASES(){
         ShellExecuter.command="getprop ro.updater.oldrelease.url";
         String output=ShellExecuter.runAsRoot();

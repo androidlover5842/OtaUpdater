@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.DownloadManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +20,12 @@ import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
 import io.github.otaupdater.otaupdater.R;
 
+import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
+import static io.github.otaupdater.otaupdater.util.Config.Downloader;
 import static io.github.otaupdater.otaupdater.util.Config.Showlog;
 import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
 import static io.github.otaupdater.otaupdater.util.Config.isOnline;
+import static io.github.otaupdater.otaupdater.util.Config.uri;
 
 public class DialogActivity extends Activity {
     private PanterDialog UpdaterDialog;
@@ -79,14 +81,9 @@ public class DialogActivity extends Activity {
                                         .setPositive("Download", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                Uri uri = Uri.parse(String.valueOf(update.getUrlToDownload()));
-                                                downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                                                DownloadManager.Request request = new DownloadManager.Request(uri);
-                                                String fileName = uri.getLastPathSegment();
-                                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-
-                                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                                                Long reference = downloadManager.enqueue(request);
+                                                uri = Uri.parse(String.valueOf(update.getUrlToDownload()));
+                                                DownloadFileName=uri.getLastPathSegment();
+                                                Downloader(DialogActivity.this);
                                                 UpdaterDialog.dismiss();
 
                                             }

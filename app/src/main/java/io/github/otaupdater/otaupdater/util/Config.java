@@ -1,11 +1,16 @@
 package io.github.otaupdater.otaupdater.util;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import io.github.otaupdater.otalibary.util.ShellExecuter;
+
+import static android.content.Context.DOWNLOAD_SERVICE;
 
 /**
  * Created by sumit on 20/12/16.
@@ -13,7 +18,10 @@ import io.github.otaupdater.otalibary.util.ShellExecuter;
 
 public class Config {
     public static boolean ShowLog;
+    public static Uri uri;
+    public static String DownloadFileName;
     public static String Tag="RomUpdaterConfig";
+    public static DownloadManager downloadManager;
     public static String URL_OLD_RELEASES(){
         ShellExecuter.command="getprop ro.updater.oldrelease.url";
         String output=ShellExecuter.runAsRoot();
@@ -70,6 +78,16 @@ public class Config {
             return false;
         }
         return true;
+    }
+
+    public static void Downloader(Context c){
+        downloadManager = (DownloadManager) c.getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, DownloadFileName);
+
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        Long reference = downloadManager.enqueue(request);
+
     }
 
 }

@@ -1,3 +1,6 @@
+[![](https://jitpack.io/v/Grace5921/OtaUpdater.svg)](https://jitpack.io/#Grace5921/OtaUpdater)
+[![Build Status](https://travis-ci.org/Grace5921/OtaUpdater.svg?branch=master)](https://travis-ci.org/Grace5921/OtaUpdater)
+
 # OtaUpdater
 Ota updater for unofficial roms 
 
@@ -5,7 +8,7 @@ Usage :-
 
 #Device tree
 Add this lines to your cm.mk or device.mk
-```xml
+```
 ## Replace link with your own 
 PRODUCT_PROPERTY_OVERRIDES += ro.updater.uri=https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/Updater.xml
 ## This is for old builds 
@@ -36,25 +39,25 @@ I don't think so i need to tell you about this .
 checkout <a href="https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/updater-old-release.json">this</a> json format 
 ### Stable or Beta ?
 set 	
-```xml
+```
 "stable" : "true"
 "prerelease" : "false",
 ```
 if your old release is stable 
 
 else 
-```xml
+```
 "prerelease" : "true",
 "stable": "false"
 ```
 
 ### tag_name
-```xml
+```
 "tag_name" : "Your build name like cm13-un----"
 ```
 
 ### name
-```xml
+```
 "name" : "set name of file (include .zip in extention) this will file name to be downloaded on device"
 ```
 
@@ -62,11 +65,11 @@ else
 you know what to do here :D.
 
 ### browser_download_url
-```xml
+```
 "browser_download_url" : "this should be direct link to your old release as we  did in xml before "
 ```
 ### body
-```xml
+```
 "body" : "add your change log here and make sure you use this for new line "\n" "
 ```
 # Screen shots

@@ -29,13 +29,23 @@
             android:padding="4dp">
 
             <TextView
-                android:id="@+id/list_release_beta_release_warning"
+                android:id="@+id/list_release_beta_release_beta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="@color/colorBrown"
                 android:textStyle="bold"
                 android:text="[BETA]"
+                android:paddingRight="4dp"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/list_release_stable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/colorBrown"
+                android:textStyle="bold"
+                android:text="[Stable]"
                 android:paddingRight="4dp"
                 android:visibility="gone"/>
 

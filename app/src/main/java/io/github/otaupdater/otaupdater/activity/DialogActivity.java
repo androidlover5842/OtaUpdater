@@ -21,6 +21,7 @@ import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
 import io.github.otaupdater.otaupdater.R;
 
+import static io.github.otaupdater.otalibary.UtilsLibrary.getRomInstalledVersion;
 import static io.github.otaupdater.otaupdater.util.Config.Showlog;
 import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
 
@@ -103,6 +104,25 @@ public class DialogActivity extends Activity {
                             if(Showlog().equals(true));
                             {
                                 Log.d("Found", String.valueOf(update.getUrlToDownload()));
+                            }
+                            if(getRomInstalledVersion().equals(true)){
+                                mProgressBar.setVisibility(View.GONE);
+                                if(Showlog().equals(true));
+                                {
+                                    Log.i(Tag, "Device is up to date "+String.valueOf(isUpdateAvailable));
+                                }
+                                mNoUpdate.setTitle("Device is updated already");
+                                mNoUpdate.setDialogType(PromptDialog.DIALOG_TYPE_SUCCESS)
+                                        .setAnimationEnable(true)
+                                        .setTitleText("Your device is updated already")
+                                        .setPositiveListener("Ok", new PromptDialog.OnPositiveListener() {
+                                            @Override
+                                            public void onClick(PromptDialog dialog) {
+                                                mNoUpdate.dismiss();
+                                                finish();
+                                            }
+                                        }).show();
+
                             }
                         }
                     }

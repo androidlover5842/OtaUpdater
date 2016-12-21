@@ -25,7 +25,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-class UtilsLibrary {
+public class UtilsLibrary {
 
     static String getRomName(Context context) {
         return context.getString(context.getApplicationInfo().labelRes);
@@ -35,7 +35,7 @@ class UtilsLibrary {
         return context.getPackageName();
     }
 
-    static String getRomInstalledVersion() {
+    public static String getRomInstalledVersion() {
         String version;
         ShellExecuter.command="getprop ro.rom.version";
         version=ShellExecuter.runAsRoot();

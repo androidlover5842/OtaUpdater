@@ -69,3 +69,16 @@ you know what to do here :D.
 ```xml
 "body" : "add your change log here and make sure you use this for new line "\n" "
 ```
+# Screen shots
+
+ ![Rom Update notification screen shot ][1]
+
+ ![On click notification dialog][2]
+
+ ![App Ui ][3]
+
+ ![App ui dialog][4]
+[1]: https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/screenshots/Screenshot_20161221-160242.png
+[2]: https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/screenshots/Screenshot_20161221-160330.png
+[3]: https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/screenshots/Screenshot_20161221-160248.png
+[4]: https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/screenshots/Screenshot_20161221-160255.png

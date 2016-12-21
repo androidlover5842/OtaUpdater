@@ -58,11 +58,18 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		try
 		{
 
-			if (release.getBoolean("prerelease"))
-				betaWarningText.setVisibility(View.VISIBLE);
-			if (release.getBoolean("stable"))
-				StableText.setVisibility(View.VISIBLE);
+			if (release.getBoolean("prerelease")) {
+				if (release.getBoolean("prerelease") == true)
 
+				{
+					betaWarningText.setVisibility(View.VISIBLE);
+				}
+			}
+			if (release.getBoolean("stable")) {
+				if (release.getBoolean("stable") == true) {
+					StableText.setVisibility(View.VISIBLE);
+				}
+			}
 			if (release.has("tag_name"))
 				text1.setText(release.getString("tag_name"));
 

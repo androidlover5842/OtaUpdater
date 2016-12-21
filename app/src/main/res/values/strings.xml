@@ -8,4 +8,8 @@
     <string name="no_network_available">No network available</string>
     <string name="something_went_wrong">Oops! Something went wrong</string>
     <string name="connecting_to_github">Connecting to Github…</string>
+    <string name="check_for_update_now">Check For Update now</string>
+    <string name="last_check">Last Check</string>
+    <string name="previous_releases">Previous Releases</string>
+    <string name="latest_release">Latest Release</string>
 </resources>

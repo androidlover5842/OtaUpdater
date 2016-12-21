@@ -8,5 +8,16 @@
     "release_date": "2016-12-20T20:16:02Z",
     "browser_download_url": "https://github.com/Grace5921/OtaUpdater/releases/download/untagged-6e1dc78792511dabc72a/app-debug.apk",
     "body": "This is my change log"
+  },
+  {
+    "prerelease": "false",
+    "stable": "true",
+    "tag_name": "Build 2 Name",
+    "id": 2859019,
+    "name": "app-debug.apk",
+    "release_date": "2016-12-20T20:16:02Z",
+    "browser_download_url": "https://github.com/Grace5921/OtaUpdater/releases/download/untagged-6e1dc78792511dabc72a/app-debug.apk",
+    "body": "This is my change log"
   }
+
 ]

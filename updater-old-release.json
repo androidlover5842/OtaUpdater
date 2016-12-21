@@ -1,4 +1,5 @@
-{
+[
+  {
 "tag_name": "Build Name",
 "url": "https://api.github.com/repos/Grace5921/OtaUpdater/releases/assets/2859018",
 "id": 2859018,
@@ -6,4 +7,6 @@
 "release_date": "2016-12-20T20:16:02Z",
 "browser_download_url": "https://github.com/Grace5921/OtaUpdater/releases/download/untagged-6e1dc78792511dabc72a/app-debug.apk",
 "body": "This is my change log"
-}
+
+  }
+]

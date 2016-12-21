@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.mFragmentOldRelease = new GithubReleasesFragment().setTargetURL(Config.URL_OLD_RELEASES);
+        this.mFragmentOldRelease = new GithubReleasesFragment().setTargetURL(Config.URL_OLD_RELEASES());
         updateFragment(mFragmentOldRelease);
         mCheckUpdate=(Button)findViewById(R.id.activity_main_check_for_update);
         mCheckUpdate.setOnClickListener(new View.OnClickListener() {

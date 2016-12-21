@@ -1,4 +1,4 @@
-package io.github.otaupdater.otaupdater;
+package io.github.otaupdater.otaupdater.activity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -19,9 +19,10 @@ import io.github.otaupdater.otalibary.RomUpdaterUtils;
 import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
+import io.github.otaupdater.otaupdater.R;
 
-import static io.github.otaupdater.otaupdater.Config.Showlog;
-import static io.github.otaupdater.otaupdater.Config.UpdaterUri;
+import static io.github.otaupdater.otaupdater.util.Config.Showlog;
+import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
 
 public class DialogActivity extends Activity {
     private PanterDialog UpdaterDialog;

@@ -1,4 +1,4 @@
-package io.github.otaupdater.otaupdater;
+package io.github.otaupdater.otaupdater.util;
 
 import android.util.Log;
 

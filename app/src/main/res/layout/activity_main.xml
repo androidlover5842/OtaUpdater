@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.github.otaupdater.otaupdater.MainActivity"
+    tools:context="io.github.otaupdater.otaupdater.activity.MainActivity"
     android:gravity="bottom">
 
     <TextView

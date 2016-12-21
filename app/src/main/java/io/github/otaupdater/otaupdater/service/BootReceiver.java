@@ -1,4 +1,4 @@
-package io.github.otaupdater.otaupdater;
+package io.github.otaupdater.otaupdater.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

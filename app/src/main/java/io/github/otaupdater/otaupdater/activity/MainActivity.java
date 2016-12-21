@@ -1,4 +1,4 @@
-package io.github.otaupdater.otaupdater;
+package io.github.otaupdater.otaupdater.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import io.github.otaupdater.otaupdater.util.Config;
+import io.github.otaupdater.otaupdater.R;
 import io.github.otaupdater.otaupdater.fragment.GithubReleasesFragment;
 
 public class MainActivity extends AppCompatActivity {

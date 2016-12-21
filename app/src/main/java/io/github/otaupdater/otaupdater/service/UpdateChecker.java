@@ -1,4 +1,4 @@
-package io.github.otaupdater.otaupdater;
+package io.github.otaupdater.otaupdater.service;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,10 +15,12 @@ import io.github.otaupdater.otalibary.RomUpdaterUtils;
 import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
+import io.github.otaupdater.otaupdater.R;
+import io.github.otaupdater.otaupdater.activity.DialogActivity;
 
-import static io.github.otaupdater.otaupdater.Config.ShowToast;
-import static io.github.otaupdater.otaupdater.Config.Showlog;
-import static io.github.otaupdater.otaupdater.Config.UpdaterUri;
+import static io.github.otaupdater.otaupdater.util.Config.ShowToast;
+import static io.github.otaupdater.otaupdater.util.Config.Showlog;
+import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
 
 /**
  * Created by sumit on 20/12/16.

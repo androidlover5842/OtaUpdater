@@ -3,9 +3,6 @@ package io.github.otaupdater.otaupdater.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,6 +23,7 @@ import io.github.otaupdater.otaupdater.R;
 
 import static io.github.otaupdater.otaupdater.util.Config.Showlog;
 import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
+import static io.github.otaupdater.otaupdater.util.Config.isOnline;
 
 public class DialogActivity extends Activity {
     private PanterDialog UpdaterDialog;
@@ -41,7 +39,7 @@ public class DialogActivity extends Activity {
         UpdaterDialog= new PanterDialog(DialogActivity.this);
         mNoUpdate = new PromptDialog(this);
         ActivityCompat.requestPermissions(DialogActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-        if(isOnline()) {
+        if(isOnline(this)) {
             RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
                     .setUpdateFrom(UpdateFrom.XML)
                     .setUpdateXML(UpdaterUri())
@@ -139,15 +137,4 @@ public class DialogActivity extends Activity {
         }
 
     }
-    public boolean isOnline() {
-        ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-
-        if(netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()){
-            Log.i(Tag,"No Internet connection");
-            return false;
-        }
-        return true;
-    }
-
 }

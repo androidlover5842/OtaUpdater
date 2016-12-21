@@ -10,7 +10,7 @@ import io.github.otaupdater.otalibary.util.ShellExecuter;
 
 public class Config {
     public static boolean ShowLog;
-    public static String URL_OLD_RELEASES="https://api.github.com/repos/Grace5921/OtaUpdater/releases";
+    public static String URL_OLD_RELEASES="https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/updater-old-release.json";
     public static String Showlog(){
         ShellExecuter.command="getprop ro.otaupdate.enable_log";
         String output=ShellExecuter.runAsRoot();

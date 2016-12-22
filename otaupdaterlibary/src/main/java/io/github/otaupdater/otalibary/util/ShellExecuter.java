@@ -13,9 +13,8 @@ import eu.chainfire.libsuperuser.Shell;
  */
 
 public class ShellExecuter {
-    public static String command;
 
-    public static final  String runAsRoot()
+    public static final  String runAsRoot(String command)
     {
 
         try {
@@ -54,7 +53,7 @@ public class ShellExecuter {
     {
         return new File("/system/xbin/su").isFile();
     }
-    public static List<String> SuperSu(){
+    public static List<String> SuperSu(String command){
         List<String> newShell= (Shell.SH.run(command));
         return newShell;
     }

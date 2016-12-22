@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -26,6 +27,7 @@ import static io.github.otaupdater.otaupdater.util.Config.Showlog;
 import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
 import static io.github.otaupdater.otaupdater.util.Config.isOnline;
 import static io.github.otaupdater.otaupdater.util.Config.uri;
+import static java.lang.String.valueOf;
 
 public class DialogActivity extends Activity {
     private PanterDialog UpdaterDialog;
@@ -57,20 +59,21 @@ public class DialogActivity extends Activity {
                                 mProgressBar.setVisibility(View.GONE);
                                 if (Showlog().equals(true)) ;
                                 {
-                                    Log.i(Tag, "No update found " + String.valueOf(isUpdateAvailable));
+                                    Log.i(Tag, "No update found " + valueOf(isUpdateAvailable));
                                 }
-                                mNoUpdate.setTitle("No Updates Found");
-                                mNoUpdate.setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
-                                        .setAnimationEnable(true)
-                                        .setTitleText("No update found")
-                                        .setContentText("Try again later")
-                                        .setPositiveListener("Ok", new PromptDialog.OnPositiveListener() {
-                                            @Override
-                                            public void onClick(PromptDialog dialog) {
-                                                mNoUpdate.dismiss();
-                                                finish();
-                                            }
-                                        }).show();
+
+                                    mNoUpdate.setTitle("No Updates Found");
+                                    mNoUpdate.setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
+                                            .setAnimationEnable(true)
+                                            .setTitleText("No update found")
+                                            .setContentText("Try again later")
+                                            .setPositiveListener("Ok", new PromptDialog.OnPositiveListener() {
+                                                @Override
+                                                public void onClick(PromptDialog dialog) {
+                                                    mNoUpdate.dismiss();
+                                                    finish();
+                                                }
+                                            }).show();
                             }
 
                             if (isUpdateAvailable == true) {
@@ -81,7 +84,7 @@ public class DialogActivity extends Activity {
                                         .setPositive("Download", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                uri = Uri.parse(String.valueOf(update.getUrlToDownload()));
+                                                uri = Uri.parse(valueOf(update.getUrlToDownload()));
                                                 DownloadFileName=uri.getLastPathSegment();
                                                 Downloader(DialogActivity.this);
                                                 UpdaterDialog.dismiss();
@@ -100,7 +103,7 @@ public class DialogActivity extends Activity {
                                         .show();
                                 if (Showlog().equals(true)) ;
                                 {
-                                    Log.d("Found", String.valueOf(update.getUrlToDownload()));
+                                    Log.d("Found", valueOf(update.getUrlToDownload()));
                                 }
                             }
                         }
@@ -134,4 +137,14 @@ public class DialogActivity extends Activity {
         }
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

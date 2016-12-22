@@ -23,13 +23,11 @@ public class Config {
     public static String Tag="RomUpdaterConfig";
     public static DownloadManager downloadManager;
     public static String URL_OLD_RELEASES(){
-        ShellExecuter.command="getprop ro.updater.oldrelease.url";
-        String output=ShellExecuter.runAsRoot();
+        String output=ShellExecuter.runAsRoot("getprop ro.updater.oldrelease.url");
         return output;
     }
     public static String Showlog(){
-        ShellExecuter.command="getprop ro.otaupdate.enable_log";
-        String output=ShellExecuter.runAsRoot();
+        String output=ShellExecuter.runAsRoot("getprop ro.otaupdate.enable_log");
         if(output.equals(false))
         {
             ShowLog=false;
@@ -45,8 +43,7 @@ public class Config {
     public static boolean ShowToast;
     public static String ShowToast(){
         String output;
-        ShellExecuter.command="getprop ro.otaupdate.enable_toast";
-        output=ShellExecuter.runAsRoot();
+        output=ShellExecuter.runAsRoot("getprop ro.otaupdate.enable_toast");
         if(output.equals(false))
         {
             ShowToast=false;
@@ -60,8 +57,7 @@ public class Config {
         return output;
     }
     public static String UpdaterUri(){
-        ShellExecuter.command="getprop ro.updater.uri";
-        String Output=ShellExecuter.runAsRoot();
+        String Output=ShellExecuter.runAsRoot("getprop ro.updater.uri");
         if(Output==null)
         {
             Log.d("RomUpdater","Try to add Custom Url in Config.java");

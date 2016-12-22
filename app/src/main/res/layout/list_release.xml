@@ -50,7 +50,7 @@
                 android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/list_release_text1"
+                android:id="@+id/list_release_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -61,10 +61,10 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/list_release_text2"
+            android:id="@+id/list_release_changelog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorGreen"
+            android:textColor="@color/ColorDarkBlue"
             android:padding="4dp"/>
         <TextView
             android:id="@+id/list_release_latest"

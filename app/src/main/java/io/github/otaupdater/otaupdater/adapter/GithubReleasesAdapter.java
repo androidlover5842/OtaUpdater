@@ -40,8 +40,8 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		if (convertView == null)
 			convertView = mInflater.inflate(R.layout.list_release, parent, false);
 
-		text1 = (TextView) convertView.findViewById(R.id.list_release_text1);
-		text2 = (TextView) convertView.findViewById(R.id.list_release_text2);
+		text1 = (TextView) convertView.findViewById(R.id.list_release_name);
+		text2 = (TextView) convertView.findViewById(R.id.list_release_changelog);
 		betaWarningText = (TextView) convertView.findViewById(R.id.list_release_beta_release_beta);
 		StableText = (TextView) convertView.findViewById(R.id.list_release_stable);
 		latestRomText=(TextView)convertView.findViewById(R.id.list_release_latest);

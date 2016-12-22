@@ -14,6 +14,7 @@ import io.github.otaupdater.otaupdater.R;
 
 import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
 import static io.github.otaupdater.otaupdater.util.Config.Downloader;
+import static io.github.otaupdater.otaupdater.util.Config.getRomInstalledVersion;
 import static io.github.otaupdater.otaupdater.util.Config.uri;
 
 /**
@@ -25,7 +26,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 {
 	private String fileName;
 	private Long fileId;
-	private TextView text1,text2,betaWarningText,StableText,latestRomText,oldRomText;
+	private TextView text1,text2,betaWarningText,StableText,latestRomText,oldRomText,mInstalledText;
 	public GithubReleasesAdapter(Context context)
 	{
 		super(context);
@@ -46,6 +47,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		StableText = (TextView) convertView.findViewById(R.id.list_release_stable);
 		latestRomText=(TextView)convertView.findViewById(R.id.list_release_latest);
         oldRomText=(TextView)convertView.findViewById(R.id.list_release_old);
+		mInstalledText=(TextView)convertView.findViewById(R.id.list_release_installed);
 		final Button actionButton = (Button) convertView.findViewById(R.id.list_release_action_button);
 
 		convertView.setOnClickListener(new View.OnClickListener()
@@ -70,6 +72,13 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 			if (release.getBoolean("stable")) {
 				if (release.getBoolean("stable") == true) {
 					StableText.setVisibility(View.VISIBLE);
+				}
+			}
+			if (release.has("version"))
+			{
+				String InstalledRomVersion= String.valueOf(release.has("version"));
+				if(InstalledRomVersion.equals(getRomInstalledVersion())){
+					mInstalledText.setVisibility(View.VISIBLE);
 				}
 			}
 			if (release.has("tag_name"))

@@ -86,4 +86,10 @@ public class Config {
 
     }
 
+    public static String getRomInstalledVersion() {
+        String version;
+        version=ShellExecuter.runAsRoot("getprop ro.rom.version");
+        return version;
+    }
+
 }

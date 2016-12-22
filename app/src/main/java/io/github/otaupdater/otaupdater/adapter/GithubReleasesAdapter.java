@@ -80,9 +80,12 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
             if(release.has("latest")==true)
             {
                 latestRomText.setText("Latest");
+                latestRomText.setVisibility(View.VISIBLE);
+                oldRomText.setVisibility(View.GONE);
             }
             else {
                 oldRomText.setText("Old");
+                oldRomText.setVisibility(View.VISIBLE);
             }
 
 			if(release.has("browser_download_url"))

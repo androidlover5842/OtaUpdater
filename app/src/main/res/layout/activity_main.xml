@@ -4,68 +4,27 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.github.otaupdater.otaupdater.activity.MainActivity"
-    android:gravity="bottom">
+    tools:context="io.github.otaupdater.otaupdater.activity.MainActivity">
 
-    <TextView
-        android:text="@string/latest_release"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="18sp" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:id="@+id/current_release"
-        android:layout_height="wrap_content"
-        android:background="@drawable/square"
-        android:layout_below="@+id/textView1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="@string/previous_releases"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="18sp"
-        android:layout_below="@+id/current_release"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:id="@+id/content_frame"
         android:layout_height="120pt"
         android:background="@drawable/square"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/textView2" />
+        android:layout_above="@+id/activity_main_check_for_update"
+        android:layout_alignParentTop="true" />
 
     <Button
         android:text="@string/check_for_update_now"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/activity_main_check_for_update"
-        android:layout_below="@+id/content_frame"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="23dp"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:fontFamily="casual"
-        android:textStyle="normal|bold" />
-
-    <TextView
-        android:text="@string/last_check"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/last_check"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:layout_below="@+id/current_release"
+        android:textStyle="normal|bold"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textStyle="normal|italic" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

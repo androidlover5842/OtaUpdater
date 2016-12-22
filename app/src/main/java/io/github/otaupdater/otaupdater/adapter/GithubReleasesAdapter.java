@@ -25,7 +25,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 {
 	private String fileName;
 	private Long fileId;
-	private TextView text1,text2,betaWarningText,StableText;
+	private TextView text1,text2,betaWarningText,StableText,latestRomText,oldRomText;
 	public GithubReleasesAdapter(Context context)
 	{
 		super(context);
@@ -44,7 +44,8 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		text2 = (TextView) convertView.findViewById(R.id.list_release_text2);
 		betaWarningText = (TextView) convertView.findViewById(R.id.list_release_beta_release_beta);
 		StableText = (TextView) convertView.findViewById(R.id.list_release_stable);
-
+		latestRomText=(TextView)convertView.findViewById(R.id.list_release_latest);
+        oldRomText=(TextView)convertView.findViewById(R.id.list_release_old);
 		final Button actionButton = (Button) convertView.findViewById(R.id.list_release_action_button);
 
 		convertView.setOnClickListener(new View.OnClickListener()
@@ -76,6 +77,13 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 
 			if (release.has("body"))
 				text2.setText(release.getString("body"));
+            if(release.has("latest")==true)
+            {
+                latestRomText.setText("Latest");
+            }
+            else {
+                oldRomText.setText("Old");
+            }
 
 			if(release.has("browser_download_url"))
 			{

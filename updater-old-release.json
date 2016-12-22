@@ -2,6 +2,7 @@
   {
     "prerelease": "false",
     "stable": "true",
+    "latest" : "true",
     "tag_name": "Build Name",
     "id": 2859018,
     "name": "app-debug.apk",

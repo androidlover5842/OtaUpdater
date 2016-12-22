@@ -2,6 +2,7 @@ package io.github.otaupdater.otaupdater.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -76,10 +77,11 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 			}
 			if (release.has("version"))
 			{
-				String InstalledRomVersion= String.valueOf(release.has("version"));
-				if(InstalledRomVersion.equals(getRomInstalledVersion())){
+				String InstalledRomVersion= release.getString("version");
+				if(getRomInstalledVersion().equals(InstalledRomVersion)){
 					mInstalledText.setVisibility(View.VISIBLE);
 				}
+				Log.i("version",InstalledRomVersion+" Rom "+getRomInstalledVersion());
 			}
 			if (release.has("tag_name"))
 				text1.setText(release.getString("tag_name"));

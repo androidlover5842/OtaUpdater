@@ -3,12 +3,14 @@ package io.github.otaupdater.otaupdater.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import com.eminayar.panter.PanterDialog;
@@ -83,6 +85,17 @@ public class DialogActivity extends Activity {
 
                             if (isUpdateAvailable == true) {
                                 mProgressBar.setVisibility(View.GONE);
+                                UpdaterDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                                    @Override
+                                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                            finish();
+                                            UpdaterDialog.dismiss();
+                                        }
+
+                                        return true;
+                                    }
+                                });
                                 UpdaterDialog.setTitle("Update Found")
                                         .setHeaderBackground(R.color.colorPrimaryDark)
                                         .setMessage("Changelog :- \n\n" + update.getReleaseNotes())
@@ -104,12 +117,18 @@ public class DialogActivity extends Activity {
                                             }
                                         })
                                         .isCancelable(false)
-                                        .withAnimation(Animation.SIDE)
-                                        .show();
+                                        .withAnimation(Animation.SIDE);
+
+                                try {
+                                    UpdaterDialog.show();
+                                }catch (WindowManager.BadTokenException Bt){
+
+                                }
                                 if (Showlog().equals(true)) ;
                                 {
                                     Log.d("Found", valueOf(update.getUrlToDownload()));
                                 }
+
                             }
                         }
 
@@ -147,11 +166,12 @@ public class DialogActivity extends Activity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            return true;
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            finish();
         }
-
         return super.onKeyDown(keyCode, event);
     }
 

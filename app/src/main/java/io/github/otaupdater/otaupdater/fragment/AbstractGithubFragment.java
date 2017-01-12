@@ -3,6 +3,7 @@ package io.github.otaupdater.otaupdater.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,6 +28,7 @@ abstract public class AbstractGithubFragment extends ListFragment
     private AbstractGithubAdapter mAdapter;
     private String mTargetURL;
     private JSONArray mAwaitedList;
+    private String TAG="AbsreacrGithubFragment";
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
@@ -140,6 +142,13 @@ abstract public class AbstractGithubFragment extends ListFragment
                 {
                     final StringBuilder result = new StringBuilder();
 
+                    if (!isUrlValid(mTargetURL))
+                    {
+                        mTargetURL="https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/updater-old-release.json";
+                        Log.e(TAG,"no url found in build.prop using default url");
+                    }
+                    Log.i(TAG,"Url = "+mTargetURL);
+
                     HttpRequest httpRequest = HttpRequest.get(mTargetURL);
                     httpRequest.receive(result);
 
@@ -154,4 +163,8 @@ abstract public class AbstractGithubFragment extends ListFragment
             }
         }.start();
     }
+    private boolean isUrlValid(String password) {
+        return password.length() > 4;
+    }
+
 }

@@ -85,11 +85,26 @@ public class Config {
         Long reference = downloadManager.enqueue(request);
 
     }
-
-    public static String getRomInstalledVersion() {
+    static String getRomVersion() {
         String version;
         version=ShellExecuter.runAsRoot("getprop ro.rom.version");
         return version;
+    }
+
+    public static String getRomInstalledVersion() {
+        String version;
+        if(!isVersionValid(getRomVersion()))
+        {
+            version="20161220";
+            Log.e(Tag,"no version found in build.prop using default "+ version  );
+        }
+        else {
+            version=getRomVersion();
+        }
+        return version;
+    }
+    public static boolean isVersionValid(String version) {
+        return version.length() > 2;
     }
 
 }

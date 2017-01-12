@@ -27,6 +27,8 @@ import okhttp3.ResponseBody;
 
 class UtilsLibrary {
 
+    private static String TAG="RomUpdater";
+
     static String getRomName(Context context) {
         return context.getString(context.getApplicationInfo().labelRes);
     }
@@ -35,12 +37,27 @@ class UtilsLibrary {
         return context.getPackageName();
     }
 
-    static String getRomInstalledVersion() {
+    static String getRomVersion() {
         String version;
         version=ShellExecuter.runAsRoot("getprop ro.rom.version");
         return version;
     }
 
+    static String getRomInstalledVersion(){
+        String version;
+        if(!isVersionValid(getRomVersion()))
+        {
+            version="20161220";
+            Log.e(TAG,"no version found in build.prop using default "+ version  );
+        }
+        else {
+            version=getRomVersion();
+        }
+        return version;
+    }
+    private static boolean isVersionValid(String version) {
+        return version.length() > 2;
+    }
     static Boolean isUpdateAvailable(String installedVersion, String latestVersion) {
         Boolean res = false;
 

@@ -34,7 +34,7 @@ public class DialogActivity extends Activity {
     private DownloadManager downloadManager;
     private ProgressBar mProgressBar;
     private PromptDialog mNoUpdate;
-    private String Tag="RomUpdater";
+    private String Tag="RomUpdater",Url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +44,14 @@ public class DialogActivity extends Activity {
         mNoUpdate = new PromptDialog(this);
         ActivityCompat.requestPermissions(DialogActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         if(isOnline(this)) {
+            if(!isVersionValid(UpdaterUri())){
+                Url="https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/Updater.xml";
+            }else {
+                Url=UpdaterUri();
+            }
             RomUpdaterUtils romUpdaterUtils = new RomUpdaterUtils(this)
                     .setUpdateFrom(UpdateFrom.XML)
-                    .setUpdateXML(UpdaterUri())
+                    .setUpdateXML(Url)
                     .withListener(new RomUpdaterUtils.UpdateListener() {
                         @Override
                         public void onSuccess(final Update update, Boolean isUpdateAvailable) {
@@ -136,6 +141,9 @@ public class DialogActivity extends Activity {
 
         }
 
+    }
+    private boolean isVersionValid(String version) {
+        return version.length() > 3;
     }
 
     @Override

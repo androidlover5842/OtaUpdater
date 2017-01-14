@@ -188,5 +188,15 @@ public class DialogActivity extends Activity {
         }
         return super.onKeyDown(keyCode, event);
     }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if ( UpdaterDialog!=null && UpdaterDialog.isShowing() ){
+            UpdaterDialog.cancel();
+        }
+        if(mNoUpdate!=null&&mNoUpdate.isShowing()){
+            mNoUpdate.cancel();
+        }
+    }
 
 }

@@ -1,4 +1,4 @@
-package io.github.otaupdater.otaupdater.service;
+package io.github.otaupdater.otaupdater.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import io.github.otaupdater.otaupdater.misc.Constants;
+import io.github.otaupdater.otaupdater.service.UpdateChecker;
 
 /**
  * Created by sumit on 18/12/16.

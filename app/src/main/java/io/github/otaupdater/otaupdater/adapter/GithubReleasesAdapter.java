@@ -2,6 +2,7 @@ package io.github.otaupdater.otaupdater.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
 
 import io.github.otaupdater.otaupdater.R;
 
@@ -108,28 +111,34 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 
 			if(release.has("browser_download_url"))
 			{
-				actionButton.setOnClickListener(new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
+				fileName = release.getString("name");
+				fileId = release.getLong("id");
+				DownloadFileName=fileId + "-" + fileName;
+				uri = Uri.parse(release.getString("browser_download_url"));
+				final File fileIns = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadFileName);
 
-						try
+				if (fileIns.isFile())
+				{
+					actionButton.setText(R.string.install);
+
+					actionButton.setOnClickListener(new View.OnClickListener()
+					{
+						@Override
+						public void onClick(View v)
 						{
-							fileName = release.getString("name");
-							fileId = release.getLong("id");
-							DownloadFileName=fileId + "-" + fileName;
-							uri = Uri.parse(release.getString("browser_download_url"));
+						}
+					});
+				}else {
+					actionButton.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
 
 							Downloader(getContext());
 
 							actionButton.setEnabled(false);
-						} catch (JSONException e)
-						{
-							e.printStackTrace();
 						}
-					}
-				});
+					});
+				}
 			}
 
 		} catch (JSONException e)

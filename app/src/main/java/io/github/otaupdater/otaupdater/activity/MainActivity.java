@@ -3,8 +3,6 @@ package io.github.otaupdater.otaupdater.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +12,8 @@ import io.github.otaupdater.otaupdater.fragment.GithubReleasesFragment;
 import io.github.otaupdater.otaupdater.util.Config;
 
 import static io.github.otaupdater.otaupdater.util.Config.PermissionRequest;
+import static io.github.otaupdater.otaupdater.util.Config.PutStringPreferences;
+import static io.github.otaupdater.otaupdater.util.Config.updateFragment;
 
 public class MainActivity extends AppCompatActivity {
     private GithubReleasesFragment mFragmentOldRelease;
@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PutStringPreferences("version", Config.getRomInstalledVersion());
+        PutStringPreferences(this,"version", Config.getRomInstalledVersion());
         this.mFragmentOldRelease = new GithubReleasesFragment().setTargetURL(Config.URL_OLD_RELEASES());
-        updateFragment(mFragmentOldRelease);
+        updateFragment(this,mFragmentOldRelease,R.id.content_frame);
         mCheckUpdate=(Button)findViewById(R.id.activity_main_check_for_update);
         mCheckUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,21 +39,5 @@ public class MainActivity extends AppCompatActivity {
         PermissionRequest(this);
     }
 
-
-
-    protected void updateFragment(Fragment fragment)
-    {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-        ft.replace(R.id.content_frame, fragment);
-        ft.commit();
-    }
-    public void PutStringPreferences(String Name,String Function){
-        settings = getSharedPreferences(Name, 0); // 1 - for public mode
-        editor = settings.edit();
-        editor.putString(Name, Function);
-        editor.commit();
-
-    }
 }
 

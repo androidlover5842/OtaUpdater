@@ -4,10 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.github.jksiezni.permissive.PermissionsGrantedListener;
@@ -28,6 +32,8 @@ public class Config {
     public static String DownloadFileName;
     public static String Tag="RomUpdaterConfig";
     public static DownloadManager downloadManager;
+    public static SharedPreferences settings;
+    public static SharedPreferences.Editor editor;
     public static String URL_OLD_RELEASES(){
         String output=ShellExecuter.runAsRoot("getprop ro.updater.oldrelease.url");
         return output;
@@ -128,5 +134,27 @@ public class Config {
                 })
                 .execute(app);
     }
+
+        public static String getPreferences(Context context,String Name){
+                String o;
+                settings = context.getSharedPreferences(Name, 0); // 0 - for private mode
+                o=settings.getString(Name,null);
+
+                        return o;
+            }
+        public static void PutStringPreferences(Context context,String Name,String Function){
+                settings = context.getSharedPreferences(Name, 0); // 1 - for public mode
+                editor = settings.edit();
+                editor.putString(Name, Function);
+                editor.commit();
+
+                    }
+        public static void updateFragment(FragmentActivity fragmentActivity, Fragment fragment,int id)
+        {
+                FragmentTransaction ft = fragmentActivity.getSupportFragmentManager().beginTransaction();
+                        ft.replace(id, fragment);
+                ft.commit();
+            }
+
 
 }

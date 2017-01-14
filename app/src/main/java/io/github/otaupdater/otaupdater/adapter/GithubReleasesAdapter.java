@@ -15,6 +15,7 @@ import io.github.otaupdater.otaupdater.R;
 
 import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
 import static io.github.otaupdater.otaupdater.util.Config.Downloader;
+import static io.github.otaupdater.otaupdater.util.Config.getPreferences;
 import static io.github.otaupdater.otaupdater.util.Config.getRomInstalledVersion;
 import static io.github.otaupdater.otaupdater.util.Config.uri;
 
@@ -77,8 +78,14 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 			}
 			if (release.has("version"))
 			{
+				boolean i = false;
+				String p;
+				p=getPreferences(getContext(),"version");
 				String InstalledRomVersion= release.getString("version");
-				if(getRomInstalledVersion().equals(InstalledRomVersion)){
+				if(p.equals(InstalledRomVersion)){
+					i=true;
+				}
+				if(i==true){
 					mInstalledText.setVisibility(View.VISIBLE);
 				}
 				Log.i("version",InstalledRomVersion+" Rom "+getRomInstalledVersion());

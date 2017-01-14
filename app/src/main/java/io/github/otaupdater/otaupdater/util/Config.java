@@ -1,5 +1,7 @@
 package io.github.otaupdater.otaupdater.util;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -7,6 +9,10 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+
+import com.github.jksiezni.permissive.PermissionsGrantedListener;
+import com.github.jksiezni.permissive.PermissionsRefusedListener;
+import com.github.jksiezni.permissive.Permissive;
 
 import io.github.otaupdater.otalibary.util.ShellExecuter;
 
@@ -105,6 +111,22 @@ public class Config {
     }
     public static boolean isVersionValid(String version) {
         return version.length() > 2;
+    }
+    public static void PermissionRequest(final Activity app){
+        new Permissive.Request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .whenPermissionsGranted(new PermissionsGrantedListener() {
+                    @Override
+                    public void onPermissionsGranted(String[] permissions) throws SecurityException {
+                        // given permissions are granted
+                    }
+                })
+                .whenPermissionsRefused(new PermissionsRefusedListener() {
+                    @Override
+                    public void onPermissionsRefused(String[] permissions) {
+                        app.finish();
+                    }
+                })
+                .execute(app);
     }
 
 }

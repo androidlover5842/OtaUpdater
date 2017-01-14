@@ -50,6 +50,7 @@ dependencies {
     compile 'com.eminayar.panterdialog:panter-dialog:0.0.2.1'
     compile 'com.github.andyxialm:ColorDialog:1.0.0'
     compile 'com.github.kevinsawicki:http-request:6.+'
+    compile 'com.github.jksiezni.permissive:permissive:0.2'
     testCompile 'junit:junit:4.12'
     compile project(path: ':otaupdaterlibary')
 }

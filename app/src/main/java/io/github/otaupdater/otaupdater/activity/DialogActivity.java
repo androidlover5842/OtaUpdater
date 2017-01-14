@@ -25,6 +25,7 @@ import io.github.otaupdater.otaupdater.R;
 
 import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
 import static io.github.otaupdater.otaupdater.util.Config.Downloader;
+import static io.github.otaupdater.otaupdater.util.Config.PermissionRequest;
 import static io.github.otaupdater.otaupdater.util.Config.Showlog;
 import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
 import static io.github.otaupdater.otaupdater.util.Config.isOnline;
@@ -43,6 +44,7 @@ public class DialogActivity extends Activity {
         setContentView(R.layout.activity_dialog);
         mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
         UpdaterDialog= new PanterDialog(DialogActivity.this);
+        PermissionRequest(this);
         mNoUpdate = new PromptDialog(this);
         ActivityCompat.requestPermissions(DialogActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         if(isOnline(this)) {

@@ -13,6 +13,8 @@ import io.github.otaupdater.otaupdater.R;
 import io.github.otaupdater.otaupdater.fragment.GithubReleasesFragment;
 import io.github.otaupdater.otaupdater.util.Config;
 
+import static io.github.otaupdater.otaupdater.util.Config.PermissionRequest;
+
 public class MainActivity extends AppCompatActivity {
     private GithubReleasesFragment mFragmentOldRelease;
     private Button mCheckUpdate;
@@ -34,7 +36,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        PermissionRequest(this);
     }
+
+
+
     protected void updateFragment(Fragment fragment)
     {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

@@ -2,7 +2,6 @@ package io.github.otaupdater.otaupdater.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,7 +33,6 @@ import static java.lang.String.valueOf;
 
 public class DialogActivity extends Activity {
     private PanterDialog UpdaterDialog;
-    private DownloadManager downloadManager;
     private ProgressBar mProgressBar;
     private PromptDialog mNoUpdate;
     private String Tag="RomUpdater",Url;
@@ -148,6 +146,8 @@ public class DialogActivity extends Activity {
         {
             mProgressBar.setVisibility(View.GONE);
             mNoUpdate.setTitle("No network found");
+            mNoUpdate.setCanceledOnTouchOutside(false);
+
             mNoUpdate.setDialogType(PromptDialog.DIALOG_TYPE_WRONG)
                     .setAnimationEnable(true)
                     .setTitleText("No network found")
@@ -158,7 +158,19 @@ public class DialogActivity extends Activity {
                             mNoUpdate.dismiss();
                             finish();
                         }
-                    }).show();
+                    })
+                    .show();
+            mNoUpdate.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        finish();
+                        UpdaterDialog.dismiss();
+                    }
+
+                    return true;
+                }
+            });
 
         }
 

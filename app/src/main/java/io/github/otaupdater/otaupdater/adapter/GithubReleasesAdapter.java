@@ -1,6 +1,7 @@
 package io.github.otaupdater.otaupdater.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -15,9 +16,11 @@ import org.json.JSONObject;
 import java.io.File;
 
 import io.github.otaupdater.otaupdater.R;
+import io.github.otaupdater.otaupdater.activity.OpenScriptGenerator;
 
 import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
 import static io.github.otaupdater.otaupdater.util.Config.Downloader;
+import static io.github.otaupdater.otaupdater.util.Config.PutStringPreferences;
 import static io.github.otaupdater.otaupdater.util.Config.getPreferences;
 import static io.github.otaupdater.otaupdater.util.Config.getRomInstalledVersion;
 import static io.github.otaupdater.otaupdater.util.Config.uri;
@@ -116,7 +119,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 				DownloadFileName=fileId + "-" + fileName;
 				uri = Uri.parse(release.getString("browser_download_url"));
 				final File fileIns = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadFileName);
-
+				final String path=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadFileName;
 				if (fileIns.isFile())
 				{
 					actionButton.setText(R.string.install);
@@ -126,6 +129,8 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 						@Override
 						public void onClick(View v)
 						{
+							mContext.startActivity(new Intent(getContext(), OpenScriptGenerator.class));
+							PutStringPreferences(getContext(),"FilePath",path);
 						}
 					});
 				}else {

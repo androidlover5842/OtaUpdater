@@ -12,4 +12,5 @@
     <string name="last_check">Last Check</string>
     <string name="previous_releases">Previous Releases</string>
     <string name="latest_release">Latest Release</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

@@ -1,7 +1,6 @@
 package io.github.otaupdater.otaupdater.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,8 +17,6 @@ import static io.github.otaupdater.otaupdater.util.Config.updateFragment;
 public class MainActivity extends AppCompatActivity {
     private GithubReleasesFragment mFragmentOldRelease;
     private Button mCheckUpdate;
-    private SharedPreferences settings;
-    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.eminayar.panter.PanterDialog;
+import com.eminayar.panter.enums.Animation;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +34,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 	private String fileName;
 	private Long fileId;
 	private TextView text1,text2,betaWarningText,StableText,latestRomText,oldRomText;
+	private PanterDialog DownloaderDialog;
 	public GithubReleasesAdapter(Context context)
 	{
 		super(context);
@@ -51,6 +55,8 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		StableText = (TextView) convertView.findViewById(R.id.list_release_stable);
 		latestRomText=(TextView)convertView.findViewById(R.id.list_release_latest);
 		oldRomText=(TextView)convertView.findViewById(R.id.list_release_old);
+		DownloaderDialog= new PanterDialog(getContext());
+
 		final Button actionButton = (Button) convertView.findViewById(R.id.list_release_action_button);
 
 
@@ -101,7 +107,26 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 					if (fileIns.isFile()){
 						mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));
 					}else {
-						Downloader(getContext());
+						DownloaderDialog.setTitle("Download ?")
+								.setHeaderBackground(R.color.colorPrimaryDark)
+								.setMessage(DownloadFileName)
+								.setPositive("Download", new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										Downloader(getContext());
+
+									}
+								})
+								.setNegative("Cancel", new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										DownloaderDialog.dismiss();
+									}
+								})
+								.isCancelable(false)
+								.withAnimation(Animation.SIDE);
+						DownloaderDialog.show();
+
 
 					}
 					//actionButton.setVisibility((actionButton.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE);

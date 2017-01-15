@@ -105,7 +105,14 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 
 					final File fileIns = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadFileName);
 					if (fileIns.isFile()){
-						mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));
+						actionButton.setVisibility((actionButton.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE);
+						actionButton.setText(R.string.install);
+						actionButton.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));
+							}
+						});
 					}else {
 						DownloaderDialog.setTitle("Download ?")
 								.setHeaderBackground(R.color.colorPrimaryDark)

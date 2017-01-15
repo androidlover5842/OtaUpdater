@@ -45,7 +45,7 @@
         android:layout_below="@+id/wipe_cache"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="133dp"
-        android:id="@+id/button"/>
+        android:id="@+id/flash_button"/>
 
     <TextView
         android:text="Are you sure you want to flash this :- \n "

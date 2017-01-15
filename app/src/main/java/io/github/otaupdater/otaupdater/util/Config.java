@@ -28,6 +28,7 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class Config {
     public static boolean ShowLog;
+    public static boolean Downloading;
     public static Uri uri;
     public static String DownloadFileName;
     public static String Tag="RomUpdaterConfig";
@@ -95,6 +96,7 @@ public class Config {
 
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         Long reference = downloadManager.enqueue(request);
+        Downloading=true;
 
     }
     static String getRomVersion() {

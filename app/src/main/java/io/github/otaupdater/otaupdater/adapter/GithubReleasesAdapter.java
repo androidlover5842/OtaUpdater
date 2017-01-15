@@ -121,7 +121,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 									@Override
 									public void onClick(View view) {
 										Downloader(getContext());
-
+										DownloaderDialog.dismiss();
 									}
 								})
 								.setNegative("Cancel", new View.OnClickListener() {

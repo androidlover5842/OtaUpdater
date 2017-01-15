@@ -22,6 +22,7 @@ import io.github.otaupdater.otaupdater.activity.OpenScriptGenerator;
 
 import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
 import static io.github.otaupdater.otaupdater.util.Config.Downloader;
+import static io.github.otaupdater.otaupdater.util.Config.PutStringPreferences;
 import static io.github.otaupdater.otaupdater.util.Config.uri;
 
 /**
@@ -63,32 +64,6 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		try
 		{
 
-			if(release.has("browser_download_url"))
-			{
-				actionButton.setOnClickListener(new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
-
-						try
-						{
-							fileName = release.getString("name");
-							fileId = release.getLong("id");
-							DownloadFileName=fileId + "-" + fileName;
-							uri = Uri.parse(release.getString("browser_download_url"));
-
-							Downloader(getContext());
-
-							actionButton.setEnabled(false);
-						} catch (JSONException e)
-						{
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-
 			convertView.setOnClickListener(new View.OnClickListener()
 			{
 				@Override
@@ -110,6 +85,8 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 						actionButton.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
+								PutStringPreferences(mContext,"FilePath", fileIns.getPath());
+
 								mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));
 							}
 						});
@@ -121,6 +98,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 									@Override
 									public void onClick(View view) {
 										Downloader(getContext());
+										PutStringPreferences(mContext,"FilePath", fileIns.getPath());
 										DownloaderDialog.dismiss();
 									}
 								})
@@ -136,7 +114,6 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 
 
 					}
-					//actionButton.setVisibility((actionButton.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE);
 				}
 			});
 

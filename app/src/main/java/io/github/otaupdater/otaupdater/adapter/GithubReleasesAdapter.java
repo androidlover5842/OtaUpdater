@@ -1,7 +1,9 @@
 package io.github.otaupdater.otaupdater.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -10,7 +12,10 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 import io.github.otaupdater.otaupdater.R;
+import io.github.otaupdater.otaupdater.activity.OpenScriptGenerator;
 
 import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
 import static io.github.otaupdater.otaupdater.util.Config.Downloader;
@@ -48,17 +53,60 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		oldRomText=(TextView)convertView.findViewById(R.id.list_release_old);
 		final Button actionButton = (Button) convertView.findViewById(R.id.list_release_action_button);
 
-		convertView.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				actionButton.setVisibility((actionButton.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE);
-			}
-		});
 
 		try
 		{
+
+			if(release.has("browser_download_url"))
+			{
+				actionButton.setOnClickListener(new View.OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+
+						try
+						{
+							fileName = release.getString("name");
+							fileId = release.getLong("id");
+							DownloadFileName=fileId + "-" + fileName;
+							uri = Uri.parse(release.getString("browser_download_url"));
+
+							Downloader(getContext());
+
+							actionButton.setEnabled(false);
+						} catch (JSONException e)
+						{
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+
+			convertView.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View v)
+				{
+					try {
+						fileName = release.getString("name");
+					fileId = release.getLong("id");
+					uri = Uri.parse(release.getString("browser_download_url"));
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					DownloadFileName=fileId + "-" + fileName;
+
+					final File fileIns = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadFileName);
+					if (fileIns.isFile()){
+						mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));
+					}else {
+						Downloader(getContext());
+
+					}
+					//actionButton.setVisibility((actionButton.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE);
+				}
+			});
 
 			if (release.getBoolean("prerelease")) {
 				if (release.getBoolean("prerelease") == true)
@@ -86,32 +134,6 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 			else {
 				oldRomText.setText("Old");
 				oldRomText.setVisibility(View.VISIBLE);
-			}
-
-			if(release.has("browser_download_url"))
-			{
-				actionButton.setOnClickListener(new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
-
-						try
-						{
-							fileName = release.getString("name");
-							fileId = release.getLong("id");
-							DownloadFileName=fileId + "-" + fileName;
-							uri = Uri.parse(release.getString("browser_download_url"));
-
-							Downloader(getContext());
-
-							actionButton.setEnabled(false);
-						} catch (JSONException e)
-						{
-							e.printStackTrace();
-						}
-					}
-				});
 			}
 
 		} catch (JSONException e)

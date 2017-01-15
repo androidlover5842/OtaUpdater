@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,6 +26,7 @@ import io.github.otaupdater.otaupdater.R;
 import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
 import static io.github.otaupdater.otaupdater.util.Config.Downloader;
 import static io.github.otaupdater.otaupdater.util.Config.PermissionRequest;
+import static io.github.otaupdater.otaupdater.util.Config.PutStringPreferences;
 import static io.github.otaupdater.otaupdater.util.Config.Showlog;
 import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
 import static io.github.otaupdater.otaupdater.util.Config.isOnline;
@@ -105,6 +107,7 @@ public class DialogActivity extends Activity {
                                                 uri = Uri.parse(valueOf(update.getUrlToDownload()));
                                                 DownloadFileName=uri.getLastPathSegment();
                                                 Downloader(DialogActivity.this);
+                                                PutStringPreferences(getApplicationContext(),"FilePath", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + update.getLatestVersion());
                                                 UpdaterDialog.dismiss();
 
                                             }

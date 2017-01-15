@@ -1,10 +1,7 @@
 package io.github.otaupdater.otaupdater.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,16 +10,10 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-
 import io.github.otaupdater.otaupdater.R;
-import io.github.otaupdater.otaupdater.activity.OpenScriptGenerator;
 
 import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
 import static io.github.otaupdater.otaupdater.util.Config.Downloader;
-import static io.github.otaupdater.otaupdater.util.Config.PutStringPreferences;
-import static io.github.otaupdater.otaupdater.util.Config.getPreferences;
-import static io.github.otaupdater.otaupdater.util.Config.getRomInstalledVersion;
 import static io.github.otaupdater.otaupdater.util.Config.uri;
 
 /**
@@ -34,7 +25,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 {
 	private String fileName;
 	private Long fileId;
-	private TextView text1,text2,betaWarningText,StableText,latestRomText,oldRomText,mInstalledText;
+	private TextView text1,text2,betaWarningText,StableText,latestRomText,oldRomText;
 	public GithubReleasesAdapter(Context context)
 	{
 		super(context);
@@ -54,8 +45,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		betaWarningText = (TextView) convertView.findViewById(R.id.list_release_beta_release_beta);
 		StableText = (TextView) convertView.findViewById(R.id.list_release_stable);
 		latestRomText=(TextView)convertView.findViewById(R.id.list_release_latest);
-        oldRomText=(TextView)convertView.findViewById(R.id.list_release_old);
-		mInstalledText=(TextView)convertView.findViewById(R.id.list_release_installed);
+		oldRomText=(TextView)convertView.findViewById(R.id.list_release_old);
 		final Button actionButton = (Button) convertView.findViewById(R.id.list_release_action_button);
 
 		convertView.setOnClickListener(new View.OnClickListener()
@@ -82,68 +72,46 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 					StableText.setVisibility(View.VISIBLE);
 				}
 			}
-			if (release.has("version"))
-			{
-				boolean i = false;
-				String p;
-				p=getPreferences(getContext(),"version");
-				String InstalledRomVersion= release.getString("version");
-				if(p.equals(InstalledRomVersion)){
-					i=true;
-				}
-				if(i==true){
-					mInstalledText.setVisibility(View.VISIBLE);
-				}
-				Log.i("version",InstalledRomVersion+" Rom "+getRomInstalledVersion());
-			}
 			if (release.has("tag_name"))
 				text1.setText(release.getString("tag_name"));
 
 			if (release.has("body"))
 				text2.setText(release.getString("body"));
-            if(release.has("latest")==true)
-            {
-                latestRomText.setText("Latest");
-                latestRomText.setVisibility(View.VISIBLE);
-                oldRomText.setVisibility(View.GONE);
-            }
-            else {
-                oldRomText.setText("Old");
-                oldRomText.setVisibility(View.VISIBLE);
-            }
+			if(release.has("latest")==true)
+			{
+				latestRomText.setText("Latest");
+				latestRomText.setVisibility(View.VISIBLE);
+				oldRomText.setVisibility(View.GONE);
+			}
+			else {
+				oldRomText.setText("Old");
+				oldRomText.setVisibility(View.VISIBLE);
+			}
 
 			if(release.has("browser_download_url"))
 			{
-				fileName = release.getString("name");
-				fileId = release.getLong("id");
-				DownloadFileName=fileId + "-" + fileName;
-				uri = Uri.parse(release.getString("browser_download_url"));
-				final File fileIns = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadFileName);
-				final String path=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadFileName;
-				if (fileIns.isFile())
+				actionButton.setOnClickListener(new View.OnClickListener()
 				{
-					actionButton.setText(R.string.install);
-
-					actionButton.setOnClickListener(new View.OnClickListener()
+					@Override
+					public void onClick(View v)
 					{
-						@Override
-						public void onClick(View v)
+
+						try
 						{
-							mContext.startActivity(new Intent(getContext(), OpenScriptGenerator.class));
-							PutStringPreferences(getContext(),"FilePath",path);
-						}
-					});
-				}else {
-					actionButton.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
+							fileName = release.getString("name");
+							fileId = release.getLong("id");
+							DownloadFileName=fileId + "-" + fileName;
+							uri = Uri.parse(release.getString("browser_download_url"));
 
 							Downloader(getContext());
 
 							actionButton.setEnabled(false);
+						} catch (JSONException e)
+						{
+							e.printStackTrace();
 						}
-					});
-				}
+					}
+				});
 			}
 
 		} catch (JSONException e)

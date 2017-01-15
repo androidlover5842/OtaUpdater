@@ -99,6 +99,7 @@ public class OpenScriptGenerator extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 Shell.SU.run("reboot recovery");
+                                FlashDialog.dismiss();
 
                             }
                         })

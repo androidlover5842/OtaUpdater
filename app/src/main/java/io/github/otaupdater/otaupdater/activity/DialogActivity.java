@@ -107,7 +107,7 @@ public class DialogActivity extends Activity {
                                                 uri = Uri.parse(valueOf(update.getUrlToDownload()));
                                                 DownloadFileName=uri.getLastPathSegment();
                                                 Downloader(DialogActivity.this);
-                                                PutStringPreferences(getApplicationContext(),"FilePath", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + update.getLatestVersion());
+                                                PutStringPreferences(getApplicationContext(),"FilePath", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadFileName);
                                                 UpdaterDialog.dismiss();
 
                                             }

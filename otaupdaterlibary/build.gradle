@@ -22,6 +22,15 @@ android {
     lintOptions {
         abortOnError false
     }
+    task deleteJar(type: Delete){
+        delete 'libs/otaupdaterlibary'
+    }
+    task createJar(type: Copy){
+        from('build/intermediates/bundles/release')
+        into('libs/')
+        include('classes.jar')
+        rename('classes.jar','otaupdaterlibary.jar')
+    }
 
 }
 

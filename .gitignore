@@ -9,4 +9,4 @@
 .externalNativeBuild
 *.apk
 *~
-
+*.jar

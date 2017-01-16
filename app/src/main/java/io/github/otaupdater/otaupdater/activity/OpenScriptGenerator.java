@@ -72,24 +72,14 @@ public class OpenScriptGenerator extends AppCompatActivity {
         FlashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mWipeData.isEnabled())
-                {
-                    WipeData=true;
-
-                }
-                if(mWipeCache.isEnabled())
-                {
-                    WipeCache=true;
-
-                }
                 Shell.SU.run("mount -o rw,remount,rw /cache");
                 Shell.SU.run("touch "+SCRIPT_PATH);
-                Shell.SU.run("echo ' install "+p+" ' > "+ SCRIPT_PATH);
-                if(WipeData==true){
-                    Shell.SU.run("echo ' install wipe data ' >> "+ SCRIPT_PATH);
+                Shell.SU.run("echo 'install "+p+" ' > "+ SCRIPT_PATH);
+                if(mWipeData.isChecked()){
+                    Shell.SU.run("echo 'install wipe data ' >> "+ SCRIPT_PATH);
                 }
-                if(WipeCache==true){
-                    Shell.SU.run("echo ' install wipe cache ' >> "+ SCRIPT_PATH);
+                if(mWipeCache.isChecked()){
+                    Shell.SU.run("echo 'install wipe cache ' >> "+ SCRIPT_PATH);
                 }
 
                 FlashDialog.setTitle("Are you sure ?")

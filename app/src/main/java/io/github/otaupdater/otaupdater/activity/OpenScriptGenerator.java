@@ -15,6 +15,7 @@ import com.eminayar.panter.enums.Animation;
 
 import eu.chainfire.libsuperuser.Shell;
 import io.github.otaupdater.otaupdater.R;
+import io.github.otaupdater.otaupdater.util.Tools;
 
 
 /**
@@ -72,14 +73,14 @@ public class OpenScriptGenerator extends AppCompatActivity {
         FlashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Shell.SU.run("mount -o rw,remount,rw /cache");
-                Shell.SU.run("touch "+SCRIPT_PATH);
-                Shell.SU.run("echo 'install "+p+" ' > "+ SCRIPT_PATH);
+                Tools.shell("mount -o rw,remount,rw /cache",true);
+                Tools.shell("touch "+SCRIPT_PATH,true);
+                Tools.shell("echo 'install "+p+" ' > "+ SCRIPT_PATH,true);
                 if(mWipeData.isChecked()){
-                    Shell.SU.run("echo 'install wipe data ' >> "+ SCRIPT_PATH);
+                    Tools.shell("echo 'install wipe data ' >> " + SCRIPT_PATH,true);
                 }
                 if(mWipeCache.isChecked()){
-                    Shell.SU.run("echo 'install wipe cache ' >> "+ SCRIPT_PATH);
+                    Tools.shell("echo 'install wipe cache ' >> "+ SCRIPT_PATH,true);
                 }
 
                 FlashDialog.setTitle("Are you sure ?")

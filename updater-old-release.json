@@ -9,7 +9,8 @@
     "release_date": "2016-12-20T20:16:02Z",
     "browser_download_url": "https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/test.zip",
     "body": "This is my change log",
-    "version" : "20161230"
+    "version" : "20161230",
+    "emmc": "false"
   },
   {
     "prerelease": "false",
@@ -20,7 +21,8 @@
     "release_date": "2016-12-20T20:16:02Z",
     "browser_download_url": "https://raw.githubusercontent.com/Grace5921/OtaUpdater/master/test.zip",
     "body": "This is my change log",
-    "version" : "20161220"
+    "version" : "20161220",
+    "emmc": "true"
   }
 
 ]

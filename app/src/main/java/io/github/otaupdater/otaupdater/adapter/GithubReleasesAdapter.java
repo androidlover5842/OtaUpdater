@@ -33,6 +33,7 @@ import static io.github.otaupdater.otaupdater.util.Config.uri;
 public class GithubReleasesAdapter extends GithubAdapterIDEA
 {
 	private String fileName;
+	private boolean HasEmmc;
 	private Long fileId;
 	private TextView text1,text2,betaWarningText,StableText,latestRomText,oldRomText;
 	private PanterDialog DownloaderDialog;
@@ -85,6 +86,22 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 						actionButton.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
+								if(release.has("emmc")) {
+									try {
+										HasEmmc = release.getBoolean("emmc");
+									} catch (JSONException e) {
+										e.printStackTrace();
+									}
+									if (HasEmmc = true) {
+										final File EmmcPath = new File(Environment.getDataDirectory()+"/"+Environment.DIRECTORY_DOWNLOADS + "/" + DownloadFileName);
+										PutStringPreferences(mContext, "FilePath", EmmcPath.getPath());
+
+									} else
+									{
+										PutStringPreferences(mContext,"FilePath", fileIns.getPath());
+
+									}
+								}
 								PutStringPreferences(mContext,"FilePath", fileIns.getPath());
 
 								mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));

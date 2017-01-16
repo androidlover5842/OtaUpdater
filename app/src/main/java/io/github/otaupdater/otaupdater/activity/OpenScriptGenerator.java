@@ -82,7 +82,7 @@ public class OpenScriptGenerator extends AppCompatActivity {
                     WipeCache=true;
 
                 }
-                Shell.SU.run("mount -o ro,remount,ro /system");
+                Shell.SU.run("mount -o rw,remount,rw /cache");
                 Shell.SU.run("touch "+SCRIPT_PATH);
                 Shell.SU.run("echo ' install "+p+" ' > "+ SCRIPT_PATH);
                 if(WipeData==true){

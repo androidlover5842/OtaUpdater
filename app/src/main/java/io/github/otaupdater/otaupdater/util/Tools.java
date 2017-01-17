@@ -80,7 +80,7 @@ public class Tools implements Constants{
             return "/system/xbin/su";
         }
         if (RootTools.isRootAvailable()) {
-            return "su";
+            return "sh";
         }
         return "sh";
     }

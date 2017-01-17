@@ -54,6 +54,5 @@ dependencies {
     compile 'com.github.jksiezni.permissive:permissive:0.2'
     testCompile 'junit:junit:4.12'
     compile project(path: ':otaupdaterlibary')
-    compile project(path: ':in.uncod.android.bypass')
-    compile files('/home/sumit/AndroidStudioProjects/OtaUpdater/libs/RootTools.jar')
+    compile files('../libs/RootTools.jar')
 }

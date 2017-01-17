@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 
+import eu.chainfire.libsuperuser.Shell;
 import io.github.otaupdater.otaupdater.R;
 import io.github.otaupdater.otaupdater.activity.OpenScriptGenerator;
 
@@ -40,7 +42,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 	{
 		super(context);
 	}
-
+	private boolean suAvailable;
 
 	@Override
 	protected View onView(int position, View convertView, ViewGroup parent)
@@ -57,6 +59,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		latestRomText=(TextView)convertView.findViewById(R.id.list_release_latest);
 		oldRomText=(TextView)convertView.findViewById(R.id.list_release_old);
 		DownloaderDialog= new PanterDialog(getContext());
+		suAvailable = Shell.SU.available();
 
 		final Button actionButton = (Button) convertView.findViewById(R.id.list_release_action_button);
 
@@ -64,6 +67,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		try
 		{
 
+			final View finalConvertView = convertView;
 			convertView.setOnClickListener(new View.OnClickListener()
 			{
 				@Override
@@ -87,7 +91,14 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 							public void onClick(View v) {
 								PutStringPreferences(mContext,"FilePath", fileIns.getPath());
 
-								mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));
+								if (!suAvailable) {
+									mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));
+								}
+								else {
+									Snackbar.make(finalConvertView, "Device not rooted .", Snackbar.LENGTH_LONG).show();
+
+								}
+
 							}
 						});
 					}else {

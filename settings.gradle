@@ -1,1 +1,1 @@
-include ':app', ':otaupdaterlibary'
+include ':app', ':otaupdaterlibary', ':in.uncod.android.bypass'

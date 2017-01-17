@@ -23,7 +23,7 @@ adb shell "chmod 644 $apk_target_sys"
 adb shell "mount -o remount,ro /"
 
 # Stop the app
-adb shell "am force-stop $app_package"
+adb shell "am force-stop io.github.otaupdater.otaupdater"
 
 # Re execute the app
-adb shell "am start -n \"$app_package/$app_package.$MAIN_ACTIVITY\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
+adb shell "am start -n \"io.github.otaupdater.otaupdater/io.github.otaupdater.otaupdater.activity.MainActivity\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"

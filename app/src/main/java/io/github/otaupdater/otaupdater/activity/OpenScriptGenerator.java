@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.enums.Animation;
+import com.stericson.RootTools.RootTools;
 
 import eu.chainfire.libsuperuser.Shell;
 import io.github.otaupdater.otaupdater.R;
@@ -28,7 +29,6 @@ public class OpenScriptGenerator extends AppCompatActivity {
     private TextView Path;
     private Button FlashButton;
     private String p,SCRIPT_PATH = "/cache/recovery/openrecoveryscript";
-    private boolean WipeData,WipeCache;
     private PanterDialog FlashDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,36 +73,47 @@ public class OpenScriptGenerator extends AppCompatActivity {
         FlashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Tools.shell("mount -o rw,remount,rw /cache",true);
-                Tools.shell("touch "+SCRIPT_PATH,true);
-                Tools.shell("echo 'install "+p+" ' > "+ SCRIPT_PATH,true);
-                if(mWipeData.isChecked()){
-                    Tools.shell("echo 'install wipe data ' >> " + SCRIPT_PATH,true);
-                }
-                if(mWipeCache.isChecked()){
-                    Tools.shell("echo 'install wipe cache ' >> "+ SCRIPT_PATH,true);
-                }
+                if(RootTools.isRootAvailable()) {
 
-                FlashDialog.setTitle("Are you sure ?")
-                        .setHeaderBackground(R.color.colorPrimaryDark)
-                        .setMessage(p)
-                        .setPositive("Flash", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Shell.SU.run("reboot recovery");
-                                FlashDialog.dismiss();
+                    if (RootTools.isAccessGiven()) {
+                        Tools.shell("mount -o rw,remount,rw /cache", true);
+                        Tools.shell("touch " + SCRIPT_PATH, true);
+                        Tools.shell("echo 'install " + p + " ' > " + SCRIPT_PATH, true);
+                        if (mWipeData.isChecked()) {
+                            Tools.shell("echo 'install wipe data ' >> " + SCRIPT_PATH, true);
+                        }
+                        if (mWipeCache.isChecked()) {
+                            Tools.shell("echo 'install wipe cache ' >> " + SCRIPT_PATH, true);
+                        }
 
-                            }
-                        })
-                        .setNegative("Cancel", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                FlashDialog.dismiss();
-                            }
-                        })
-                        .isCancelable(false)
-                        .withAnimation(Animation.SIDE);
-                FlashDialog.show();
+                        FlashDialog.setTitle("Are you sure ?")
+                                .setHeaderBackground(R.color.colorPrimaryDark)
+                                .setMessage(p)
+                                .setPositive("Flash", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Shell.SU.run("reboot recovery");
+                                        FlashDialog.dismiss();
+
+                                    }
+                                })
+                                .setNegative("Cancel", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        FlashDialog.dismiss();
+                                    }
+                                })
+                                .isCancelable(false)
+                                .withAnimation(Animation.SIDE);
+                        FlashDialog.show();
+                    } else {
+                        Snackbar.make(v, "Not having enough permission .", Snackbar.LENGTH_LONG).show();
+
+                    }
+                }else{
+                    Snackbar.make(v, "Device not rooted .", Snackbar.LENGTH_LONG).show();
+
+                }
             }
         });
 

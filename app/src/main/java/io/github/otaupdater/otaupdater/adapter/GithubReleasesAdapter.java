@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.enums.Animation;
+import com.stericson.RootTools.RootTools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,12 +91,17 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 							@Override
 							public void onClick(View v) {
 								PutStringPreferences(mContext,"FilePath", fileIns.getPath());
+								if (!RootTools.isRootAvailable()) {
 
-								if (!suAvailable) {
+								if (!RootTools.isAccessGiven()) {
 									mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));
 								}
 								else {
-									Snackbar.make(finalConvertView, "Device not rooted .", Snackbar.LENGTH_LONG).show();
+									Snackbar.make(v, "Not having enough permission .", Snackbar.LENGTH_LONG).show();
+
+								}
+								}else {
+									Snackbar.make(v, "Device not rooted .", Snackbar.LENGTH_LONG).show();
 
 								}
 

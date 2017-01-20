@@ -14,9 +14,10 @@ import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.enums.Animation;
 import com.stericson.RootTools.RootTools;
 
-import eu.chainfire.libsuperuser.Shell;
 import io.github.otaupdater.otaupdater.R;
 import io.github.otaupdater.otaupdater.util.Tools;
+
+import static io.github.otaupdater.otaupdater.util.Config.PutStringPreferences;
 
 
 /**
@@ -70,21 +71,13 @@ public class OpenScriptGenerator extends AppCompatActivity {
         });
 
         Path.setText(p);
+
         FlashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(RootTools.isRootAvailable()) {
 
                     if (RootTools.isAccessGiven()) {
-                        Tools.shell("mount -o rw,remount,rw /cache", true);
-                        Tools.shell("touch " + SCRIPT_PATH, true);
-                        Tools.shell("echo 'install " + p + " ' > " + SCRIPT_PATH, true);
-                        if (mWipeData.isChecked()) {
-                            Tools.shell("echo 'install wipe data ' >> " + SCRIPT_PATH, true);
-                        }
-                        if (mWipeCache.isChecked()) {
-                            Tools.shell("echo 'install wipe cache ' >> " + SCRIPT_PATH, true);
-                        }
 
                         FlashDialog.setTitle("Are you sure ?")
                                 .setHeaderBackground(R.color.colorPrimaryDark)
@@ -92,9 +85,20 @@ public class OpenScriptGenerator extends AppCompatActivity {
                                 .setPositive("Flash", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Shell.SU.run("reboot recovery");
-                                        FlashDialog.dismiss();
-
+                                        Tools.shell("dd if="+p+ " of=/data/update.zip", true);
+                                        PutStringPreferences(getApplicationContext(),"NewPath","/data/update.zip");
+                                        p=getPreferences(getApplicationContext(),"NewPath");
+                                        FlashDialog.setMessage(p);
+                                        Tools.shell("mount -o rw,remount,rw /cache", true);
+                                        Tools.shell("touch " + SCRIPT_PATH, true);
+                                        Tools.shell("echo 'install /data/update.zip" + " ' > " + SCRIPT_PATH, true);
+                                        if (mWipeData.isChecked()) {
+                                            Tools.shell("echo 'install wipe data ' >> " + SCRIPT_PATH, true);
+                                        }
+                                        if (mWipeCache.isChecked()) {
+                                            Tools.shell("echo 'install wipe cache ' >> " + SCRIPT_PATH, true);
+                                        }
+                                        Tools.shell("reboot recovery",true);
                                     }
                                 })
                                 .setNegative("Cancel", new View.OnClickListener() {

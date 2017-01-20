@@ -44,6 +44,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		super(context);
 	}
 	private boolean suAvailable;
+	private View finalConvertView;
 
 	@Override
 	protected View onView(int position, View convertView, ViewGroup parent)
@@ -68,7 +69,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		try
 		{
 
-			final View finalConvertView = convertView;
+			finalConvertView = convertView;
 			convertView.setOnClickListener(new View.OnClickListener()
 			{
 				@Override

@@ -75,7 +75,7 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 				public void onClick(View v)
 				{
 					try {
-						fileName = release.getString("name");
+					fileName = release.getString("name");
 					fileId = release.getLong("id");
 					uri = Uri.parse(release.getString("browser_download_url"));
 					} catch (JSONException e) {
@@ -91,9 +91,9 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 							@Override
 							public void onClick(View v) {
 								PutStringPreferences(mContext,"FilePath", fileIns.getPath());
-								if (!RootTools.isRootAvailable()) {
+								if(RootTools.isRootAvailable()) {
 
-								if (!RootTools.isAccessGiven()) {
+								if (RootTools.isAccessGiven()) {
 									mContext.startActivity(new Intent(mContext, OpenScriptGenerator.class));
 								}
 								else {

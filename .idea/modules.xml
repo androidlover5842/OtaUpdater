@@ -3,12 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/OtaUpdater.iml" filepath="$PROJECT_DIR$/OtaUpdater.iml" />
-      <module fileurl="file://$PROJECT_DIR$/OtaUpdater.iml" filepath="$PROJECT_DIR$/OtaUpdater.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/in.uncod.android.bypass/in.uncod.android.bypass.iml" filepath="$PROJECT_DIR$/in.uncod.android.bypass/in.uncod.android.bypass.iml" />
-      <module fileurl="file://$PROJECT_DIR$/in.uncod.android.bypass/in.uncod.android.bypass.iml" filepath="$PROJECT_DIR$/in.uncod.android.bypass/in.uncod.android.bypass.iml" />
-      <module fileurl="file://$PROJECT_DIR$/otaupdaterlibary/otaupdaterlibary.iml" filepath="$PROJECT_DIR$/otaupdaterlibary/otaupdaterlibary.iml" />
       <module fileurl="file://$PROJECT_DIR$/otaupdaterlibary/otaupdaterlibary.iml" filepath="$PROJECT_DIR$/otaupdaterlibary/otaupdaterlibary.iml" />
     </modules>
   </component>

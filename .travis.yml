@@ -30,7 +30,7 @@ deploy:
     repo: Grace5921/OtaUpdater
 before_install:
       - yes | sdkmanager "platforms;android-27"
-      - yes | sdkmanager 'ndk-bundle'
-      - yes | sdkmanager 'cmake;3.6.3155560'
+      - yes | sdkmanager "ndk-bundle"
+      - yes | sdkmanager "cmake;3.6.3155560"
       - export ANDROID_HOME=$HOME/android/sdk
       - export ANDROID_NDK_HOME=$HOME/android/sdk/ndk-bundle

@@ -1,6 +1,9 @@
 package io.github.otaupdater.otaupdater.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.enums.Animation;
 import com.stericson.RootTools.RootTools;
+import com.stericson.RootTools.execution.Shell;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -195,7 +199,22 @@ public class OpenScriptGenerator extends AppCompatActivity {
         protected void onPostExecute(Double aDouble) {
             super.onPostExecute(aDouble);
             progressBar.setVisibility(View.GONE);
-            FlashButton.setEnabled(true);
+            new AlertDialog.Builder(
+                    OpenScriptGenerator.this)
+                    .setTitle("Reboot ").setMessage("Do you want to reboot recovery now ?")
+                    .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            ShellExecuter.runAsRoot("reboot recovery");
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).create().show();
         }
     }
 }

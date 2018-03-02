@@ -19,6 +19,7 @@ import com.github.jksiezni.permissive.PermissionsRefusedListener;
 import com.github.jksiezni.permissive.Permissive;
 
 import io.github.otaupdater.otalibary.util.ShellExecuter;
+import io.github.otaupdater.otaupdater.BuildConfig;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
@@ -27,7 +28,6 @@ import static android.content.Context.DOWNLOAD_SERVICE;
  */
 
 public class Config {
-    public static boolean ShowLog;
     public static boolean Downloading;
     public static Uri uri;
     public static String DownloadFileName;
@@ -35,38 +35,11 @@ public class Config {
     public static DownloadManager downloadManager;
     public static SharedPreferences settings;
     public static SharedPreferences.Editor editor;
+    public static String type= BuildConfig.BUILD_TYPE;
+    public static  String debug="debug";
+
     public static String URL_OLD_RELEASES(){
         String output=ShellExecuter.runAsRoot("getprop ro.updater.oldrelease.url");
-        return output;
-    }
-    public static String Showlog(){
-        String output=ShellExecuter.runAsRoot("getprop ro.otaupdate.enable_log");
-        if(output.equals(false))
-        {
-            ShowLog=false;
-        }else {
-            ShowLog=true;
-        }
-        if(output==null)
-        {
-            ShowLog=true;
-        }
-        return output;
-    }
-    public static boolean ShowToast;
-    public static String ShowToast(){
-        String output;
-        output=ShellExecuter.runAsRoot("getprop ro.otaupdate.enable_toast");
-        if(output.equals(false))
-        {
-            ShowToast=false;
-        }else {
-            ShowToast=true;
-        }
-        if(output==null)
-        {
-            ShowToast=true;
-        }
         return output;
     }
     public static String UpdaterUri(){

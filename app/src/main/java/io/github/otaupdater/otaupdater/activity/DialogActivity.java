@@ -27,9 +27,10 @@ import static io.github.otaupdater.otaupdater.util.Config.DownloadFileName;
 import static io.github.otaupdater.otaupdater.util.Config.Downloader;
 import static io.github.otaupdater.otaupdater.util.Config.PermissionRequest;
 import static io.github.otaupdater.otaupdater.util.Config.PutStringPreferences;
-import static io.github.otaupdater.otaupdater.util.Config.Showlog;
 import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
+import static io.github.otaupdater.otaupdater.util.Config.debug;
 import static io.github.otaupdater.otaupdater.util.Config.isOnline;
+import static io.github.otaupdater.otaupdater.util.Config.type;
 import static io.github.otaupdater.otaupdater.util.Config.uri;
 import static java.lang.String.valueOf;
 
@@ -59,14 +60,14 @@ public class DialogActivity extends Activity {
                     .withListener(new RomUpdaterUtils.UpdateListener() {
                         @Override
                         public void onSuccess(final Update update, Boolean isUpdateAvailable) {
-                            if (Showlog().equals(true)) ;
+                            if(type==debug)
                             {
                                 Log.d(Tag, "Update Found");
                                 Log.d(Tag, update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
                             }
                             if (isUpdateAvailable == false) {
                                 mProgressBar.setVisibility(View.GONE);
-                                if (Showlog().equals(true)) ;
+                                if(type==debug)
                                 {
                                     Log.i(Tag, "No update found " + valueOf(isUpdateAvailable));
                                 }
@@ -127,7 +128,7 @@ public class DialogActivity extends Activity {
                                 }catch (WindowManager.BadTokenException Bt){
 
                                 }
-                                if (Showlog().equals(true)) ;
+                                if(type==debug)
                                 {
                                     Log.d("Found", valueOf(update.getUrlToDownload()));
                                 }
@@ -137,7 +138,7 @@ public class DialogActivity extends Activity {
 
                         @Override
                         public void onFailed(RomUpdaterError error) {
-                            if (Showlog().equals(true)) ;
+                            if(type==debug)
                             {
                                 Log.d("RomUpdater", "Something went wrong");
                             }

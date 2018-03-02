@@ -15,12 +15,13 @@ import io.github.otaupdater.otalibary.RomUpdaterUtils;
 import io.github.otaupdater.otalibary.enums.RomUpdaterError;
 import io.github.otaupdater.otalibary.enums.UpdateFrom;
 import io.github.otaupdater.otalibary.objects.Update;
+import io.github.otaupdater.otaupdater.BuildConfig;
 import io.github.otaupdater.otaupdater.R;
 import io.github.otaupdater.otaupdater.activity.DialogActivity;
 
-import static io.github.otaupdater.otaupdater.util.Config.ShowToast;
-import static io.github.otaupdater.otaupdater.util.Config.Showlog;
 import static io.github.otaupdater.otaupdater.util.Config.UpdaterUri;
+import static io.github.otaupdater.otaupdater.util.Config.debug;
+import static io.github.otaupdater.otaupdater.util.Config.type;
 
 /**
  * Created by sumit on 20/12/16.
@@ -43,7 +44,7 @@ public class UpdateChecker extends Service {
                 .withListener(new RomUpdaterUtils.UpdateListener() {
                     @Override
                     public void onSuccess(final Update update, Boolean isUpdateAvailable) {
-                        if(Showlog().equals(true));
+                        if(type==debug)
                         {
                             Log.d("Found", "Update Found");
                             Log.d("RomUpdater", update.getLatestVersion() + ", " + update.getUrlToDownload() + ", " + Boolean.toString(isUpdateAvailable));
@@ -62,7 +63,7 @@ public class UpdateChecker extends Service {
                             NotificationManager mNotificationManager =
                                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                             mNotificationManager.notify(0, mBuilder.build());
-                            if(Showlog().equals(true));
+                            if(type==debug)
                             {
                                 Log.d("Found", String.valueOf(update.getUrlToDownload()));
                             }
@@ -71,7 +72,7 @@ public class UpdateChecker extends Service {
                     }
                     @Override
                     public void onFailed(RomUpdaterError error) {
-                        if(Showlog().equals(true));
+                        if(type==debug)
                         {
                             Log.d("RomUpdater", "Something went wrong");
                         }
@@ -79,7 +80,7 @@ public class UpdateChecker extends Service {
 
                 });
         romUpdaterUtils.start();
-        if(ShowToast().equals(true));
+        if(type==debug)
         {
             Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         }

@@ -2,16 +2,9 @@
 apply plugin: 'com.android.library'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'key0'
-            keyPassword 'otaupdater'
-            storeFile file('/home/androidlover5842/AndroidStudioProjects/OtaUpdater/app/otaupdater.jks')
-            storePassword 'otaupdater'
-        }
-    }
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
+
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
@@ -25,28 +18,25 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
-        }
-        debug {
-            signingConfig signingConfigs.config
         }
     }
     lintOptions {
         abortOnError false
     }
-    task deleteJar(type: Delete) {
+    task deleteJar(type: Delete){
         delete 'libs/otaupdaterlibary'
     }
-    task createJar(type: Copy) {
+    task createJar(type: Copy){
         from('build/intermediates/bundles/release')
         into('libs/')
         include('classes.jar')
-        rename('classes.jar', 'otaupdaterlibary.jar')
+        rename('classes.jar','otaupdaterlibary.jar')
     }
+
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

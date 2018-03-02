@@ -2,20 +2,27 @@ package io.github.otaupdater.otaupdater.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.enums.Animation;
 import com.stericson.RootTools.RootTools;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+import io.github.otaupdater.otalibary.util.ShellExecuter;
 import io.github.otaupdater.otaupdater.R;
-import io.github.otaupdater.otaupdater.util.Tools;
 
 import static io.github.otaupdater.otaupdater.util.Config.PutStringPreferences;
 
@@ -31,6 +38,7 @@ public class OpenScriptGenerator extends AppCompatActivity {
     private Button FlashButton;
     private String p,SCRIPT_PATH = "/cache/recovery/openrecoveryscript";
     private PanterDialog FlashDialog;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +51,7 @@ public class OpenScriptGenerator extends AppCompatActivity {
         FlashButton=(Button)findViewById(R.id.flash_button);
         p=getPreferences(OpenScriptGenerator.this,"FilePath");
         FlashDialog= new PanterDialog(OpenScriptGenerator.this);
-
+        progressBar=findViewById(R.id.progressBar_flash);
         mWipeCache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,20 +93,7 @@ public class OpenScriptGenerator extends AppCompatActivity {
                                 .setPositive("Flash", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Tools.shell("dd if="+p+ " of=/data/update.zip", true);
-                                        PutStringPreferences(getApplicationContext(),"NewPath","/data/update.zip");
-                                        p=getPreferences(getApplicationContext(),"NewPath");
-                                        FlashDialog.setMessage(p);
-                                        Tools.shell("mount -o rw,remount,rw /cache", true);
-                                        Tools.shell("touch " + SCRIPT_PATH, true);
-                                        Tools.shell("echo 'install /data/update.zip" + " ' > " + SCRIPT_PATH, true);
-                                        if (mWipeData.isChecked()) {
-                                            Tools.shell("echo 'install wipe data ' >> " + SCRIPT_PATH, true);
-                                        }
-                                        if (mWipeCache.isChecked()) {
-                                            Tools.shell("echo 'install wipe cache ' >> " + SCRIPT_PATH, true);
-                                        }
-                                        Tools.shell("reboot recovery",true);
+                                        new ROMFlasher().execute();
                                     }
                                 })
                                 .setNegative("Cancel", new View.OnClickListener() {
@@ -131,5 +126,70 @@ public class OpenScriptGenerator extends AppCompatActivity {
 
         return o;
 
+    }
+
+    private class ROMFlasher extends AsyncTask<Double ,Double ,Double >{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            FlashDialog.dismiss();
+        }
+
+        @Override
+        protected Double doInBackground(Double... strings) {
+
+            File filein  = new File(p);
+            File fileout = new File(getCacheDir()+"/update.zip");
+            FileInputStream fin  = null;
+            FileOutputStream fout = null;
+            long length  = filein.length();
+            long counter = 0;
+            int r = 0;
+            byte[] b = new byte[1024];
+            try {
+            fin  = new FileInputStream(filein);
+            fout = new FileOutputStream(fileout);
+            while( (r = fin.read(b)) != -1) {
+                counter += r;
+                fout.write(b, 0, r);
+                System.out.println((counter * 100.0) / length);
+                publishProgress((counter * 100.0) / length);
+            }
+
+        }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            PutStringPreferences(getApplicationContext(),"NewPath",getCacheDir()+"/update.zip");
+            p=getPreferences(getApplicationContext(),"NewPath");
+            FlashDialog.setMessage(p);
+            ShellExecuter.runAsRoot("mount -o rw,remount,rw /cache");
+            ShellExecuter.runAsRoot("touch " + SCRIPT_PATH);
+            ShellExecuter.runAsRoot("echo 'install "+getCacheDir()+"/update.zip" + " ' > " + SCRIPT_PATH);
+            if (mWipeData.isChecked()) {
+                ShellExecuter.runAsRoot("echo 'install wipe data ' >> " + SCRIPT_PATH);
+            }
+            if (mWipeCache.isChecked()) {
+                ShellExecuter.runAsRoot("echo 'install wipe cache ' >> " + SCRIPT_PATH);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Double... values) {
+            super.onProgressUpdate(values);
+            progressBar.setVisibility(View.VISIBLE);
+            int d=values[0].intValue();
+            progressBar.setProgress(d);
+            FlashButton.setEnabled(false);
+        }
+
+        @Override
+        protected void onPostExecute(Double aDouble) {
+            super.onPostExecute(aDouble);
+            progressBar.setVisibility(View.GONE);
+            FlashButton.setEnabled(true);
+        }
     }
 }

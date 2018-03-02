@@ -30,11 +30,10 @@ string exec(const char* cmd) {
     return result;
 }
 
-
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_io_github_otaupdater_otaupdater_activity_MainActivity_Runcommand(JNIEnv *env,jobject jobj,
-                                                                      jstring command) {
+Java_io_github_otaupdater_otalibary_util_ShellExecuter_RunCommand(JNIEnv *env, jobject instance,jstring command) {
+
     const char *convert = env->GetStringUTFChars(command, NULL);
     string co=exec(convert);
     return env->NewStringUTF(co.c_str());

@@ -19,7 +19,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-import eu.chainfire.libsuperuser.Shell;
 import io.github.otaupdater.otaupdater.R;
 import io.github.otaupdater.otaupdater.activity.OpenScriptGenerator;
 
@@ -43,7 +42,6 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 	{
 		super(context);
 	}
-	private boolean suAvailable;
 	private View finalConvertView;
 
 	@Override
@@ -61,7 +59,6 @@ public class GithubReleasesAdapter extends GithubAdapterIDEA
 		latestRomText=(TextView)convertView.findViewById(R.id.list_release_latest);
 		oldRomText=(TextView)convertView.findViewById(R.id.list_release_old);
 		DownloaderDialog= new PanterDialog(getContext());
-		suAvailable = Shell.SU.available();
 
 		final Button actionButton = (Button) convertView.findViewById(R.id.list_release_action_button);
 

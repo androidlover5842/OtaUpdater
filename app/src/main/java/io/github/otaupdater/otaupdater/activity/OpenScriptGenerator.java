@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eminayar.panter.PanterDialog;
 import com.eminayar.panter.enums.Animation;
@@ -52,6 +53,12 @@ public class OpenScriptGenerator extends AppCompatActivity {
         p=getPreferences(OpenScriptGenerator.this,"FilePath");
         FlashDialog= new PanterDialog(OpenScriptGenerator.this);
         progressBar=findViewById(R.id.progressBar_flash);
+        if (!p.endsWith(".zip") && new File(p).exists())
+        {
+            FlashButton.setEnabled(false);
+            Toast.makeText(OpenScriptGenerator.this,"File type not flashable",Toast.LENGTH_SHORT).show();
+        }
+
         mWipeCache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +159,6 @@ public class OpenScriptGenerator extends AppCompatActivity {
             while( (r = fin.read(b)) != -1) {
                 counter += r;
                 fout.write(b, 0, r);
-                System.out.println((counter * 100.0) / length);
                 publishProgress((counter * 100.0) / length);
             }
 

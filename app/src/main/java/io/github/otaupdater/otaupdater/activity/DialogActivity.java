@@ -110,6 +110,7 @@ public class DialogActivity extends Activity {
                                                 Downloader(DialogActivity.this);
                                                 PutStringPreferences(getApplicationContext(),"FilePath", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + DownloadFileName);
                                                 UpdaterDialog.dismiss();
+                                                finish();
 
                                             }
                                         })

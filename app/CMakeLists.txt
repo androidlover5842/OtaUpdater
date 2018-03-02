@@ -1,16 +1,10 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-add_library(
-             native-lib
+add_library(OtaUpdater SHARED src/main/cpp/OtaUpdater.cpp)
 
-             SHARED
+include_directories(src/main/cpp/)
 
-             src/main/cpp/native-lib.cpp )
+find_library(log-lib log)
 
-find_library(
-              log-lib
-              log )
+target_link_libraries(OtaUpdater ${log-lib})
 
-target_link_libraries(
-                       native-lib
-                       ${log-lib} )

@@ -174,7 +174,6 @@ public class OpenScriptGenerator extends AppCompatActivity {
             p=getPreferences(getApplicationContext(),"NewPath");
             FlashDialog.setMessage(p);
             ShellExecuter.runAsRoot("mount -o rw,remount,rw /cache");
-            ShellExecuter.runAsRoot("touch " + SCRIPT_PATH);
             ShellExecuter.runAsRoot("echo 'install "+getCacheDir()+"/update.zip" + " ' > " + SCRIPT_PATH);
             if (mWipeData.isChecked()) {
                 ShellExecuter.runAsRoot("echo 'install wipe data ' >> " + SCRIPT_PATH);
@@ -182,7 +181,8 @@ public class OpenScriptGenerator extends AppCompatActivity {
             if (mWipeCache.isChecked()) {
                 ShellExecuter.runAsRoot("echo 'install wipe cache ' >> " + SCRIPT_PATH);
             }
-
+            //ShellExecuter.runAsRoot("echo 'cmd rm "+getCacheDir()+"/update.zip' >> "+SCRIPT_PATH);
+            ShellExecuter.runAsRoot("echo 'cmd reboot system' >>"+SCRIPT_PATH);
             return null;
         }
 
